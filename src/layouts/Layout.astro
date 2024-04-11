@@ -1,0 +1,147 @@
+---
+interface Props {
+  title: string;
+}
+import Header from "../components/Header.svelte";
+import Footer from "../components/Footer.svelte";
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <script is:inline>
+      if (typeof window !== "undefined") {
+        const theme =
+          localStorage.getItem("theme") ||
+          (window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light");
+        document.documentElement.classList.add(theme);
+      }
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <Header client:load />
+    <slot />
+    <Footer />
+  </body>
+</html>
+<style is:global lang="scss">
+  :root {
+    /* Base theme colors */
+    --background-color: #f27ea9;
+    --text-color: black;
+    --header-footer-bg: #f2d027;
+    --border-color: black;
+    --button-border: black;
+    --button-primary-bg: #f2d027;
+    --button-primary-color: black;
+    --button-secondary-bg: #590202;
+    --button-secondary-color: white;
+    --figure-border-shadow: 4px 4px 0px black;
+  }
+
+  /* Dark theme overrides */
+  .dark {
+    --background-color: black;
+    --text-color: white;
+    --header-footer-bg: black;
+    --border-color: #590202;
+    --button-border: #590202;
+    --button-primary-bg: #f2d027; /* Assuming you want to keep primary button same in dark mode */
+    --button-primary-color: black; /* Adjust if needed */
+    --button-secondary-bg: #590202; /* Adjust if needed */
+    --button-secondary-color: white; /* Adjust if needed */
+    --figure-border-shadow: 4px 4px 0px #590202;
+  }
+
+  /* Reset styles */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  button,
+  a {
+    cursor: url("../../public/cursor.png"), auto;
+  }
+  html {
+    font-family: system-ui, sans-serif;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-size: 224px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    cursor: url("../../public/cursor.png"), auto;
+	transition: .3s ease-in-out;
+  }
+  p,
+  a {
+    color: var(--text-color);
+  }
+  /* Header, Footer, Buttons, and Figures */
+  header,
+  footer {
+    background-color: var(--header-footer-bg);
+  }
+
+  header {
+    border-bottom: 3px solid var(--border-color);
+  }
+
+  footer {
+    border-top: 3px solid var(--border-color);
+  }
+
+  button,
+  .button {
+    border: 3px solid var(--button-border);
+  }
+
+  .button-primary {
+    background-color: var(--button-primary-bg);
+    color: var(--button-primary-color);
+  }
+
+  .button-secondary {
+    background-color: var(--button-secondary-bg);
+    color: var(--button-secondary-color);
+  }
+
+  figure {
+    border: 3px solid var(--border-color);
+    box-shadow: var(--figure-border-shadow);
+  }
+
+  /* Typography */
+  h1 {
+    text-shadow:
+      5px 5px 0 #f2d027,
+      -3px -3px 0 #f2d027,
+      -3px 3px 0 #f2d027,
+      3px -3px 0 #f2d027,
+      3px 3px 0 #f2d027;
+  }
+
+  /* Adjusting for dark theme specifically, if needed */
+  .dark h1 {
+    color: #f2d027; /* Example specific color for dark mode */
+    text-shadow:
+      5px 5px 0 #590202,
+      -3px -3px 0 #590202,
+      -3px 3px 0 #590202,
+      3px -3px 0 #590202,
+      3px 3px 0 #590202;
+  }
+</style>
