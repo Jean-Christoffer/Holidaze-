@@ -1,6 +1,6 @@
 <footer class="footer">
   <div class="footer__logo">
-    <img src="../../public/logo-removebg-preview.png" alt="" />
+    <img src="/logo-removebg-preview.png" alt="" />
   </div>
 </footer>
 

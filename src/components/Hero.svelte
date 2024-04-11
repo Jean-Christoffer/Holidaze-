@@ -1,12 +1,14 @@
 <script lang="ts">
   import Button from "./uiComponents/CTA.svelte";
+  export let data:any
+  $: console.log(data)
 </script>
 
 <section class="hero">
   <article class="hero__article">
     <h1>Holidaze</h1>
     <figure>
-      <img src="../../public/test.jpg" alt="" />
+      <img src="/test.jpg" alt="" />
     </figure>
     <h2>Well, what are you waiting for?</h2>
     <p>
