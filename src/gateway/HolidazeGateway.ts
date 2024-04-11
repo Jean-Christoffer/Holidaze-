@@ -3,14 +3,14 @@ import type { Venue, Venues } from "../types/types";
 class HolidazeGateWay {
     private static readonly baseUrl = new URL("https://v2.api.noroff.dev/holidaze")
 
-    //fetchVenues
+    //fetchVenues or venue
     public async getVenues({
         id = '',
         query = '',
         retryCount = 3,
     }: { id?: string; query?: string; retryCount?: number }): Promise<Venues | Venue> {
 
-        const endpoint = id ? `/venues/${id}` : '/venues'; // Determines the endpoint
+        const endpoint = id ? `/venues/${id}` : '/venues';
 
         try {
             const response = await HolidazeGateWay.fetchVenues(endpoint, query);
