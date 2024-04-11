@@ -12,6 +12,8 @@ export interface Venue {
   location: Location;
   _count: Count;
 }
+export type Venues = Array<Venue>
+
 type Media = {
   url: string;
   alt: string;
@@ -39,5 +41,5 @@ type Count = {
 export interface Button {
   text: string;
   secondary?: boolean;
-  action:string;
+  action: string;
 }
