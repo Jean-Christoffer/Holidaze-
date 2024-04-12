@@ -54,7 +54,7 @@ $:showSun = false
       width="30"
       height="30"
       viewBox="0 0 24 24"
-      fill="none"
+      fill="white"
       stroke="currentColor"
       stroke-width="2"
       stroke-linecap="round"
@@ -70,5 +70,6 @@ $:showSun = false
     align-items: center;
     padding: 8px 16px;
     margin: 0;
+    background-color: #f27ea9;
   }
 </style>

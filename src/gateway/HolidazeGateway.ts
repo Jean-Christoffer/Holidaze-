@@ -15,7 +15,7 @@ class HolidazeGateWay {
         try {
             const response = await HolidazeGateWay.fetchVenues(endpoint, query);
             const data = await response.json();
-            return data;
+            return data.data;
         } catch (err: any) {
             if (err.message.startsWith('Request failed with status: 5') && retryCount > 0) {
                 const waitTime = 2 ** (4 - retryCount) * 100;

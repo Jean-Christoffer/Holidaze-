@@ -1,7 +1,5 @@
 <script lang="ts">
   import Button from "./uiComponents/CTA.svelte";
-  export let data:any
-  $: console.log(data)
 </script>
 
 <section class="hero">
@@ -21,6 +19,11 @@
       <Button text="See Venues!" action="/venues/" />
     </div>
   </article>
+
+</section>
+
+<section class="carousel-section">
+
 </section>
 
 <style lang="scss">
@@ -83,5 +86,9 @@
         }
       }
     }
+  }
+  .carousel-section{
+    display: flex;
+    justify-content: center;
   }
 </style>
