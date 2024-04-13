@@ -19,11 +19,6 @@
       <Button text="See Venues!" action="/venues/" />
     </div>
   </article>
-
-</section>
-
-<section class="carousel-section">
-
 </section>
 
 <style lang="scss">
@@ -63,7 +58,7 @@
         grid-row: 3;
         grid-column: 2;
       }
-      div{
+      div {
         grid-row: 4;
         grid-column: 2;
         max-width: 200px;
@@ -87,8 +82,37 @@
       }
     }
   }
-  .carousel-section{
+  .carousel-section {
     display: flex;
     justify-content: center;
+  }
+
+  @media (max-width: 500px) {
+    .hero__article {
+      grid-template-columns: 1fr;
+      padding: 0 16px;
+      h1 {
+        font-size: 70px;
+      }
+      h2 {
+        font-size: 30px;
+        grid-row: 3;
+      }
+      p {
+        grid-row: 4;
+        margin: 16px 0;
+      }
+      div {
+        grid-row: 5;
+        justify-self: center;
+        max-width: 200px;
+      }
+      figure {
+        grid-column: 1/3;
+        margin-bottom: 26px;
+        grid-row: 2;
+        justify-self: center;
+      }
+    }
   }
 </style>
