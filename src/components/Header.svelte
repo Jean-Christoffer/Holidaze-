@@ -11,7 +11,7 @@
     },
     {
       name: "Venues",
-      route: "/venues/venues",
+      route: "/venues/",
     },
   ];
 </script>

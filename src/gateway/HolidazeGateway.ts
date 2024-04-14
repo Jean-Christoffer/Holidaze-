@@ -28,7 +28,8 @@ class HolidazeGateWay {
         }
     }
     private static async fetchVenues(endpoint: string, query: string): Promise<Response> {
-        const urlString = `${HolidazeGateWay.baseUrl.toString()}${endpoint}${query}`;
+        const urlString = `${HolidazeGateWay.baseUrl.toString()}${endpoint}${query ? `/search?q=${query}` : ""}`;
+        console.log(urlString)
         return fetch(urlString);
     }
 }

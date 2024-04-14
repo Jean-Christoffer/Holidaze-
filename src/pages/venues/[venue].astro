@@ -1,0 +1,9 @@
+---
+export function getStaticPaths() {
+  return [
+    {params: {venue: '123'}}
+  ];
+}
+
+const { venue } = Astro.params;
+---

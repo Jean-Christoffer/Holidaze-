@@ -3,7 +3,7 @@ export interface Venue {
   name: string;
   description: string;
   media: Media[];
-  price: number;
+  price:  number;
   maxGuests: number;
   rating: number;
   created: string;
