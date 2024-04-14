@@ -40,6 +40,7 @@
     flex-direction: column;
     align-items: center;
     background-color: #85C4E6;
+    height: 100%;
     &__body {
       margin-top: auto;
       text-align: center;
