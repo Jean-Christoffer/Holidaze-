@@ -1,147 +1,286 @@
 ---
+import Footer from "../components/Footer.svelte";
+import { ViewTransitions, fade } from "astro:transitions";
+import Navigation from "../components/uiComponents/headerComponents/Navigation.svelte";
+
+const session = Astro.cookies.get("session")?.json();
 interface Props {
   title: string;
 }
-import Header from "../components/Header.svelte";
-import Footer from "../components/Footer.svelte";
+
 const { title } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <script is:inline>
-      if (typeof window !== "undefined") {
-        const theme =
-          localStorage.getItem("theme") ||
-          (window.matchMedia("(prefers-color-scheme: dark)").matches
-            ? "dark"
-            : "light");
-        document.documentElement.classList.add(theme);
-      }
-    </script>
     <meta charset="UTF-8" />
     <meta name="description" content="Astro description" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <ViewTransitions />
   </head>
-  <body>
-    <Header client:load />
+  <body transition:animate={fade({ duration: "0.4s" })}>
+    <header>
+      <button data-theme-toggle transition:persist class="darkmode-button"
+      ></button>
+      <Navigation user={session?.name ?? ""} client:load />
+    </header>
     <slot />
     <Footer />
+    <script>
+      const themeToggles = document.querySelectorAll("[data-theme-toggle]");
+      const getTheme = () => localStorage.getItem("theme") || "light";
+      const setTheme = (theme: string) =>
+        document.documentElement.setAttribute("data-theme", theme);
+
+      window.addEventListener("DOMContentLoaded", () => setTheme(getTheme()));
+      document.addEventListener("astro:after-swap", () => setTheme(getTheme()));
+
+      themeToggles.forEach((toggle) => {
+        toggle.addEventListener("click", () => {
+          const nextTheme = getTheme() === "light" ? "dark" : "light";
+          localStorage.setItem("theme", nextTheme);
+          setTheme(nextTheme);
+        });
+      });
+    </script>
+    <style is:global lang="scss">
+      :root {
+        /* Base theme colors */
+        --h1-color: #f2d027 --btn-backround: #85c4e6;
+        --form-background: white;
+        --background-color: #f27ea9;
+        --text-color: black;
+        --header-footer-bg: #f2d027;
+        --border-color: black;
+        --button-border: black;
+        --button-primary-bg: #f2d027;
+        --button-primary-color: black;
+        --button-secondary-bg: #590202;
+        --button-secondary-color: white;
+        --figure-border-shadow: 4px 4px 0px black;
+        --button-icon: url('data:image/svg+xml, <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="%23f2d027" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3" ></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" ></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12" ></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" ></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg >');
+      }
+      :root[data-theme="light"] {
+        /* Base theme colors */
+        --h1-color: black;
+        --h1-border: #f2d027;
+        --btn-backround: #85c4e6;
+        --form-background: white;
+        --background-color: #f27ea9;
+        --text-color: black;
+        --header-footer-bg: #f2d027;
+        --border-color: black;
+        --button-border: black;
+        --button-primary-bg: #f2d027;
+        --button-primary-color: black;
+        --button-secondary-bg: #590202;
+        --button-secondary-color: white;
+        --figure-border-shadow: 4px 4px 0px black;
+        --button-icon: url('data:image/svg+xml, <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="%23f2d027" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3" ></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" ></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12" ></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" ></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg >');
+      }
+
+      /* Dark theme overrides */
+      :root[data-theme="dark"] {
+        --h1-color: #f2d027;
+        --h1-border: #590202;
+        --btn-backround: #f2d027;
+        --form-background: black;
+        --background-color: black;
+        --text-color: white;
+        --header-footer-bg: black;
+        --border-color: #590202;
+        --button-border: #590202;
+        --button-primary-bg: #f2d027; /* Assuming you want to keep primary button same in dark mode */
+        --button-primary-color: black; /* Adjust if needed */
+        --button-secondary-bg: #590202; /* Adjust if needed */
+        --button-secondary-color: white; /* Adjust if needed */
+        --figure-border-shadow: 4px 4px 0px #590202;
+        --button-icon: url('data:image/svg+xml, <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg >');
+      }
+
+      /* Reset styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .wrapper {
+        height: 100%;
+      }
+      button,
+      a {
+        cursor: url("/cursor.png"), auto;
+      }
+      html {
+        font-family: system-ui, sans-serif;
+      }
+      svg {
+        display: block;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background-size: 224px;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        cursor: url("/cursor.png"), auto;
+        transition: 0.3s ease-in-out;
+      }
+      p,
+      a {
+        color: var(--text-color);
+      }
+      /* Header, Footer, Buttons, and Figures */
+      header,
+      footer {
+        background-color: var(--header-footer-bg);
+      }
+
+      header {
+        border-bottom: 3px solid var(--border-color);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 16px;
+      }
+      .darkmode-button {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: baseline;
+        padding: 4px 16px;
+        background-color: #f27ea9;
+      }
+      .darkmode-button::after {
+        content: var(--button-icon);
+      }
+
+      footer {
+        border-top: 3px solid var(--border-color);
+      }
+
+      button,
+      .button {
+        border: 3px solid var(--button-border);
+      }
+
+      .button-primary {
+        background-color: var(--button-primary-bg);
+        color: var(--button-primary-color);
+      }
+
+      .button-secondary {
+        background-color: var(--button-secondary-bg);
+        color: var(--button-secondary-color);
+      }
+
+      figure {
+        border: 3px solid var(--border-color);
+        box-shadow: var(--figure-border-shadow);
+      }
+
+      /* Typography */
+      h1 {
+        color: var(--h1-color);
+        text-shadow:
+          5px 5px 0 var(--h1-border),
+          -3px -3px 0 var(--h1-border),
+          -3px 3px 0 var(--h1-border),
+          3px -3px 0 var(--h1-border),
+          3px 3px 0 var(--h1-border);
+      }
+
+      /* Adjusting for dark theme specifically, if needed */
+      @import url("https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+      //FORMS
+      .form_area {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: var(--form-background);
+        border-radius: 20px;
+        box-shadow: 30px 35px 2px var(--border-color);
+        border: 3px solid var(--border-color);
+        max-width: 450px;
+        width: 100%;
+        margin: auto;
+        .title {
+          color: var(--text-color);
+          font-weight: 900;
+          font-size: 1.5em;
+          margin-top: 20px;
+        }
+        form {
+          padding: 16px;
+
+          .sub_title {
+            font-weight: 600;
+            margin: 5px 0;
+          }
+
+          .form_group {
+            display: flex;
+            flex-direction: column;
+            align-items: baseline;
+            margin: 20px;
+          }
+
+          .form_style {
+            outline: none;
+            border: 2px solid #000;
+            box-shadow: 3px 4px 0px 1px var(--border-color);
+            width: 290px;
+            padding: 12px 10px;
+            border-radius: 4px;
+            font-size: 15px;
+          }
+
+          .form_style:focus,
+          .btn:focus {
+            transform: translateY(4px);
+            box-shadow: 1px 2px 0px 0px var(--border-color);
+          }
+          .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            .btn {
+              padding: 15px;
+              margin: 30px auto;
+              width: 90%;
+              font-size: 15px;
+              background: var(--btn-backround);
+              border-radius: 30px;
+              font-weight: 800;
+              box-shadow: 5px 5px 0px 0px var(--border-color);
+            }
+
+            p {
+              margin: 20px 0px;
+            }
+          }
+
+          .link {
+            font-weight: 800;
+          }
+          .error {
+            color: #d6000e;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 8px;
+          }
+        }
+      }
+    </style>
   </body>
 </html>
-<style is:global lang="scss">
-  :root {
-    /* Base theme colors */
-    --background-color: #f27ea9;
-    --text-color: black;
-    --header-footer-bg: #f2d027;
-    --border-color: black;
-    --button-border: black;
-    --button-primary-bg: #f2d027;
-    --button-primary-color: black;
-    --button-secondary-bg: #590202;
-    --button-secondary-color: white;
-    --figure-border-shadow: 4px 4px 0px black;
-  }
-
-  /* Dark theme overrides */
-  .dark {
-    --background-color: black;
-    --text-color: white;
-    --header-footer-bg: black;
-    --border-color: #590202;
-    --button-border: #590202;
-    --button-primary-bg: #f2d027; /* Assuming you want to keep primary button same in dark mode */
-    --button-primary-color: black; /* Adjust if needed */
-    --button-secondary-bg: #590202; /* Adjust if needed */
-    --button-secondary-color: white; /* Adjust if needed */
-    --figure-border-shadow: 4px 4px 0px #590202;
-  }
-
-  /* Reset styles */
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  button,
-  a {
-    cursor: url("/cursor.png"), auto;
-  }
-  html {
-    font-family: system-ui, sans-serif;
-  }
-
-  body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-size: 224px;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    cursor: url("/cursor.png"), auto;
-	transition: .3s ease-in-out;
-  }
-  p,
-  a {
-    color: var(--text-color);
-  }
-  /* Header, Footer, Buttons, and Figures */
-  header,
-  footer {
-    background-color: var(--header-footer-bg);
-  }
-
-  header {
-    border-bottom: 3px solid var(--border-color);
-  }
-
-  footer {
-    border-top: 3px solid var(--border-color);
-  }
-
-  button,
-  .button {
-    border: 3px solid var(--button-border);
-  }
-
-  .button-primary {
-    background-color: var(--button-primary-bg);
-    color: var(--button-primary-color);
-  }
-
-  .button-secondary {
-    background-color: var(--button-secondary-bg);
-    color: var(--button-secondary-color);
-  }
-
-  figure {
-    border: 3px solid var(--border-color);
-    box-shadow: var(--figure-border-shadow);
-  }
-
-  /* Typography */
-  h1 {
-    text-shadow:
-      5px 5px 0 #f2d027,
-      -3px -3px 0 #f2d027,
-      -3px 3px 0 #f2d027,
-      3px -3px 0 #f2d027,
-      3px 3px 0 #f2d027;
-  }
-
-  /* Adjusting for dark theme specifically, if needed */
-  .dark h1 {
-    color: #f2d027; /* Example specific color for dark mode */
-    text-shadow:
-      5px 5px 0 #590202,
-      -3px -3px 0 #590202,
-      -3px 3px 0 #590202,
-      3px -3px 0 #590202,
-      3px 3px 0 #590202;
-  }
-</style>

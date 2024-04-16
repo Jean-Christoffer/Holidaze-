@@ -10,29 +10,52 @@
     marquee: HTMLElement | null;
     marqueeContent: HTMLElement | null;
     tween: GSAPTween | null;
-    duration: number; 
-    direction: number; 
+    duration: number;
+    direction: number;
   };
 
   let marquees: MarqueeInstance[] = [];
 
   const countries = [
-    "Albania", "Andorra", "Armenia", "Austria", "Azerbaijan",
-    "Belarus", "Belgium", "Bosnia and Herzegovina", "Bulgaria", "Croatia",
-    "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland",
-    "France", "Georgia", "Germany", "Greece", "Hungary", "Iceland",
+    "Albania",
+    "Andorra",
+    "Armenia",
+    "Austria",
+    "Azerbaijan",
+    "Belarus",
+    "Belgium",
+    "Bosnia and Herzegovina",
+    "Bulgaria",
+    "Croatia",
+    "Cyprus",
+    "Czech Republic",
+    "Denmark",
+    "Estonia",
+    "Finland",
+    "France",
+    "Georgia",
+    "Germany",
+    "Greece",
+    "Hungary",
+    "Iceland",
   ];
 
   const slogans = [
-  "DISCOVER YOUR DREAM SPOT!",
-  "EXPERIENCE PARADISE WITH US!",
-  "UNFORGETTABLE GETAWAYS AWAIT",
-  "EXPLORE THE EXTRAORDINARY",
-  "SEE THE WORLD IN STYLE!"
-];
+    "DISCOVER YOUR DREAM SPOT!",
+    "EXPERIENCE PARADISE WITH US!",
+    "UNFORGETTABLE GETAWAYS AWAIT",
+    "EXPLORE THE EXTRAORDINARY",
+    "SEE THE WORLD IN STYLE!",
+  ];
 
-  function initMarquee(row: string, duration: number = 15, direction: number = 1) {
-    const marquee: HTMLElement | null = document.querySelector(`[data-marquee="marquee${row}"]`);
+  function initMarquee(
+    row: string,
+    duration: number = 15,
+    direction: number = 1
+  ) {
+    const marquee: HTMLElement | null = document.querySelector(
+      `[data-marquee="marquee${row}"]`
+    );
     if (!marquee) return;
 
     const marqueeContent = marquee.firstElementChild as HTMLElement | null;
@@ -46,7 +69,7 @@
       marqueeContent,
       tween: null,
       duration,
-      direction
+      direction,
     };
     marquees.push(instance);
     playMarquee(instance);
@@ -60,7 +83,10 @@
     if (!marqueeContent || !marquee) return;
 
     const width: number = marqueeContent.offsetWidth;
-    const gap: number = parseInt(getComputedStyle(marqueeContent).columnGap, 10);
+    const gap: number = parseInt(
+      getComputedStyle(marqueeContent).columnGap,
+      10
+    );
     const distanceToTranslate = direction * (gap + width);
 
     instance.tween = gsap.fromTo(
@@ -75,19 +101,22 @@
     initMarquee("1", 10, -1);
     initMarquee("2", 10, -1);
     initMarquee("3", 55, -1);
-    window.addEventListener("resize", _.debounce(() => {
-      marquees.forEach(instance => playMarquee(instance));
-    }, 500));
+    window.addEventListener(
+      "resize",
+      _.debounce(() => {
+        marquees.forEach((instance) => playMarquee(instance));
+      }, 500)
+    );
   });
 
   onDestroy(() => {
-    marquees.forEach(instance => {
-      if (instance.tween) { 
+    marquees.forEach((instance) => {
+      if (instance.tween) {
         instance.tween.kill();
       }
     });
     window.removeEventListener("resize", () => {
-      marquees.forEach(instance => playMarquee(instance));
+      marquees.forEach((instance) => playMarquee(instance));
     });
   });
 </script>
@@ -110,17 +139,16 @@
   <div class="marquee" data-marquee="marquee3">
     <div class="marquee-content">
       {#each data as images}
-      <figure>
-        <img  alt="" src={images.media[0].url}/>
-      </figure>
-   
+        <figure>
+          <img alt="" src={images.media[0].url} />
+        </figure>
       {/each}
     </div>
   </div>
 </div>
 
 <style lang="scss">
-  .wrapper{
+  .wrapper {
     margin: 50px 0;
   }
   .marquee {
@@ -148,13 +176,13 @@
         font-style: italic;
       }
     }
-    figure{
+    figure {
       width: 200px;
       height: 200px;
-      &:not(:last-child){
+      &:not(:last-child) {
         margin-right: 16px;
       }
-      img{
+      img {
         width: 100%;
         height: 100%;
         display: block;

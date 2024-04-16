@@ -1,37 +1,140 @@
 import type { Venue, Venues } from "../types/types";
 
+
 class HolidazeGateWay {
-    private static readonly baseUrl = new URL("https://v2.api.noroff.dev/holidaze")
+  private static readonly baseUrl = new URL(
+    "https://v2.api.noroff.dev/holidaze"
+  );
+  private static readonly authUrl = new URL("https://v2.api.noroff.dev/auth");
 
-    //fetchVenues or venue
-    public async getVenues({
-        id = '',
-        query = '',
-        retryCount = 3,
-    }: { id?: string; query?: string; retryCount?: number }): Promise<Venues | Venue> {
+  public async getVenues({
+    id = "",
+    query = "",
+    retryCount = 3,
+  }: {
+    id?: string;
+    query?: string;
+    retryCount?: number;
+  }): Promise<Venues | Venue> {
+    const endpoint = id ? `/venues/${id}` : "/venues";
 
-        const endpoint = id ? `/venues/${id}` : '/venues';
+    try {
+      const response = await HolidazeGateWay.fetchVenues(endpoint, query);
+      const data = await response.json();
+      console.log(data.data)
+      return data.data;
 
-        try {
-            const response = await HolidazeGateWay.fetchVenues(endpoint, query);
-            const data = await response.json();
-            return data.data;
-        } catch (err: any) {
-            if (err.message.startsWith('Request failed with status: 5') && retryCount > 0) {
-                const waitTime = 2 ** (4 - retryCount) * 100;
-                console.error(`Retry after error: ${err.message}, waiting ${waitTime}ms`);
-                await new Promise((resolve) => setTimeout(resolve, waitTime)); 
-                return this.getVenues({ id, query, retryCount: retryCount - 1 });
-            }
-            console.error(`Error fetching venues: ${err}`);
-            throw err;
-        }
+    } catch (err: any) {
+      if (
+        err.message.startsWith("Request failed with status: 5") &&
+        retryCount > 0
+      ) {
+        const waitTime = 2 ** (4 - retryCount) * 100;
+        console.error(
+          `Retry after error: ${err.message}, waiting ${waitTime}ms`
+        );
+        await new Promise((resolve) => setTimeout(resolve, waitTime));
+        return this.getVenues({ id, query, retryCount: retryCount - 1 });
+      }
+      console.error(`Error fetching venues: ${err}`);
+      throw err;
     }
-    private static async fetchVenues(endpoint: string, query: string): Promise<Response> {
-        const urlString = `${HolidazeGateWay.baseUrl.toString()}${endpoint}${query ? `/search?q=${query}` : ""}`;
-        console.log(urlString)
-        return fetch(urlString);
+  }
+
+  public async register(formData: FormData): Promise<any> {
+    const endpoint = "/register";
+    const json = Object.fromEntries(formData.entries());
+
+    const newJson = {
+      ...json,
+      avatar: {
+        url: json.avatar === "" ? "https://i.stack.imgur.com/EzZiD.png" : json.avatar,
+        alt: "My avatar alt text",
+      },
+      venueManager: json.venueManager === "on" ? true : false,
+    };
+    console.log(newJson)
+    try {
+      const response = await HolidazeGateWay.registerAccount(endpoint, newJson);
+
+      if (!response.ok) {
+        const data = await response.json();
+        const error: any = new Error(data?.errors[0]?.message ?? "Unknown error");
+        error.success = false;
+        error.data = data;
+        console.log("RES NOT OK§!!!!")
+        throw error;
+      }
+      return {
+        success: true,
+        message: "Account created, you can now log in"
+      };
+    } catch (err: any) {
+      console.error(`Error registering: ${err}`);
+      throw err;
     }
+  }
+
+  public async login(formData: FormData): Promise<any> {
+    const endpoint = "/login";
+    const json = Object.fromEntries(formData.entries());
+    try {
+      const response = await HolidazeGateWay.loginToPage(endpoint, json);
+      if (!response.ok) {
+        const data = await response.json();
+        const error: any = new Error(data?.errors[0]?.message ?? "Unknown error");
+        error.success = false;
+        error.data = data;
+        throw error;
+      }
+      const data = await response.json();
+
+      return data.data
+
+    } catch (err: any) {
+      console.error(`Error: ${err}`);
+      throw err;
+    }
+  }
+
+  private static async loginToPage(
+    endpoint: string,
+    json: any
+  ): Promise<Response> {
+    const url = `${HolidazeGateWay.authUrl.toString()}${endpoint}`;
+    return fetch(url, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(json),
+    });
+  }
+  private static async registerAccount(
+    endpoint: string,
+    json: any
+  ): Promise<Response> {
+    const url = `${HolidazeGateWay.authUrl.toString()}${endpoint}`;
+    return fetch(url, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(json),
+    });
+  }
+  private static async fetchVenues(
+    endpoint: string,
+    query: string
+  ): Promise<Response> {
+    const urlString = `${HolidazeGateWay.baseUrl.toString()}${endpoint}${query
+      ? `/search?q=${query}&_owner=true&_bookings=true`
+      : "?_owner=true&_bookings=true"
+      }`;
+    return fetch(urlString);
+  }
 }
 
-export {HolidazeGateWay}
+export { HolidazeGateWay };
