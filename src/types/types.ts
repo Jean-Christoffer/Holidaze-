@@ -14,6 +14,19 @@ export interface Venue {
 }
 export type Venues = Array<Venue>
 
+export interface User {
+  name: string;
+  email: string;
+  bio: string;
+  avatar: Image;
+  banner: Image;
+  venueManager: boolean;
+  venues: Venue[];
+  bookings: Booking[];
+  _count: Count;
+}
+
+
 type Media = {
   url: string;
   alt: string;
@@ -43,3 +56,19 @@ export interface Button {
   secondary?: boolean;
   action: string;
 }
+
+interface Image {
+  url: string;
+  alt: string;
+}
+
+interface Booking {
+  id: string;
+  dateFrom: string;
+  dateTo: string;
+  guests: number;
+  created: string;
+  updated: string;
+  venue: Venue;
+}
+
