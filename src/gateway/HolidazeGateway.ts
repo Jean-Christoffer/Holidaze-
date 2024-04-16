@@ -6,6 +6,7 @@ class HolidazeGateWay {
     "https://v2.api.noroff.dev/holidaze"
   );
   private static readonly authUrl = new URL("https://v2.api.noroff.dev/auth");
+  private static readonly profileUrl = new URL("https://v2.api.noroff.dev/holidaze/profiles/")
 
   public async getVenues({
     id = "",
@@ -62,7 +63,6 @@ class HolidazeGateWay {
         const error: any = new Error(data?.errors[0]?.message ?? "Unknown error");
         error.success = false;
         error.data = data;
-        console.log("RES NOT OK§!!!!")
         throw error;
       }
       return {
@@ -95,6 +95,43 @@ class HolidazeGateWay {
       console.error(`Error: ${err}`);
       throw err;
     }
+  }
+  
+  public async profile(name: string,token:string,apiKey:string):Promise<any>{
+  
+    try {
+      const response = await HolidazeGateWay.getProfile(name,token,apiKey);
+      if (!response.ok) {
+        const data = await response.json();
+        const error: any = new Error(data?.errors[0]?.message ?? "Unknown error");
+        error.success = false;
+        error.data = data;
+        throw error;
+      }
+      const data = await response.json();
+
+      return data.data
+
+    } catch (err: any) {
+      console.error(`Error: ${err}`);
+      throw err;
+    }
+  }
+
+  private static async getProfile(
+    name: string,
+    token:string,
+    apiKey:string,
+  ): Promise<Response> {
+    const url = `${HolidazeGateWay.profileUrl.toString()}${name}?_bookings=true&_venues=true`;
+    return fetch(url,{
+      method:"GET",
+      credentials: "same-origin",
+      headers: {
+          Authorization: `Bearer ${token}`,
+          "X-Noroff-API-Key": apiKey
+  }})
+   
   }
 
   private static async loginToPage(
