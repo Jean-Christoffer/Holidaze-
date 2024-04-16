@@ -18,23 +18,24 @@
 
   const debounceFetch = _.debounce(async (query: string) => {
     if (query.trim() === "") {
-      data = null; // Clear data if the search term is cleared
+      data = [];
     } else {
-      data = await holidazeGateWay.getVenues({ query });
+      const fetchedData = await holidazeGateWay.getVenues({ query: "" });
+      data = Array.isArray(fetchedData) ? fetchedData : [fetchedData];
     }
   }, 500);
 
-  function handleChange(e: { target: { value: string } }) {
-    searchTerm = e.target.value;
-
+  function handleChange(e: Event) {
+    const target = e.target as HTMLInputElement;
+    const searchTerm = target.value;
 
     if (searchTerm.trim() === "") {
-      debounceFetch.cancel(); 
-      data = null; 
+      debounceFetch.cancel();
+      data = [];
     } else {
       debounceFetch(searchTerm);
     }
-}
+  }
   const fadeIn = {
     delay: 100,
     duration: 200,
@@ -44,7 +45,6 @@
     delay: 0,
     duration: 100,
   };
-
 </script>
 
 {#if isVisible}
@@ -90,9 +90,7 @@
               <SearchResults {data} />
             {:else if data && data.length < 1}
               <div class="no-results">
-                <p>
-                  No results found
-                </p>
+                <p>No results found</p>
               </div>
             {/if}
           </div>
@@ -103,9 +101,9 @@
 {/if}
 
 <style lang="scss">
-    svg{
-        display: block;
-    }
+  svg {
+    display: block;
+  }
   .modal-container {
     z-index: 9999;
 
@@ -147,7 +145,7 @@
         }
         @media (max-width: 500px) {
           width: 100vw;
-          border-left:none;
+          border-left: none;
         }
       }
 

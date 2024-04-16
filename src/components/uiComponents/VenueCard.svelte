@@ -39,7 +39,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #85C4E6;
+    background-color: #85c4e6;
     height: 100%;
     &__body {
       margin-top: auto;
@@ -50,15 +50,15 @@
       gap: 8px;
       width: 100%;
     }
-    &__title{
-        text-transform: uppercase;
-         overflow-wrap: break-word;
+    &__title {
+      text-transform: uppercase;
+      overflow-wrap: break-word;
     }
-    &__location{
-        font-weight: bold;
+    &__location {
+      font-weight: bold;
     }
-    &__price{
-        font-size: 24px;
+    &__price {
+      font-size: 24px;
     }
     &__img-container {
       margin-bottom: auto;

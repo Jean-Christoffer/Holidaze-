@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { Venue } from "../../../types/types";
-  export let data: any;
+  import type { Venues } from "../../../types/types";
+  export let data: Venues;
 </script>
 
 {#each data as result}
@@ -13,9 +13,9 @@
         <p class="search-results__title">{result.name}</p>
         <p class="search-results__location">
           <em>
-            {data?.location?.city ??
-              data?.location?.country ??
-              data?.location?.continent ??
+            {result?.location?.city ??
+              result?.location?.country ??
+              result?.location?.continent ??
               "Mystery"}
           </em>
         </p>
@@ -36,8 +36,8 @@
     gap: 8px;
     font-size: 24px;
     background-color: #f2d027;
-    .search-results__location{
-        font-size: 20px;
+    .search-results__location {
+      font-size: 20px;
     }
     .search-results__img-container {
       width: 100px;

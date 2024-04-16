@@ -1,27 +1,27 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Hero from "../components/Hero.svelte";
-import {HolidazeGateWay} from "../gateway/HolidazeGateway"
-import Carousel from "../components/uiComponents/Carousel.svelte"
+import { HolidazeGateWay } from "../gateway/HolidazeGateway";
+import Carousel from "../components/uiComponents/Carousel.svelte";
 import About from "../components/About.svelte";
 import type { Venues } from "../types/types";
 
-const holidazeGateWay = new HolidazeGateWay()
-let data:any
+const holidazeGateWay = new HolidazeGateWay();
+let data: Venues;
 try {
-
-  data = await holidazeGateWay.getVenues({ query: '' });
+  const fetchedData = await holidazeGateWay.getVenues({ query: "" });
+  data = Array.isArray(fetchedData) ? fetchedData : [fetchedData];
 } catch (error) {
-  console.error('Failed to fetch data:', error);
-  data = []
+  console.error("Failed to fetch data:", error);
+  data = [];
 }
 ---
 
 <Layout title="Welcome to Astro.">
   <main>
-    <Hero  />
-    <Carousel data={data} client:only />
-    <About client:only />
+    <Hero />
+    <Carousel data={data} client:only="svelte" />
+    <About client:load />
   </main>
 </Layout>
 
