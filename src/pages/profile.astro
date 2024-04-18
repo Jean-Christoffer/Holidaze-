@@ -3,10 +3,11 @@ import Layout from "../layouts/Layout.astro";
 import { HolidazeGateWay } from "../gateway/HolidazeGateway";
 import type { User } from "../types/types";
 import Banner from "../components/uiComponents/profileComponents/Banner.svelte"
-const holidazeGateWay = new HolidazeGateWay();
+import UpdateForm from "../components/forms/UpdateForm.svelte";
 
+const holidazeGateWay = new HolidazeGateWay();
 const session = Astro.cookies.get("session")?.json();
-if (!session.accessToken || !session.name) return Astro.redirect("/warning");
+if (!session?.accessToken || !session?.name) return Astro.redirect("/warning");
 let data: User | null;
 try {
   const fetchedData = await holidazeGateWay.profile(
@@ -15,7 +16,6 @@ try {
     import.meta.env.API_KEY
   );
   data = fetchedData;
-  console.log(data);
 } catch (error) {
   console.error("Failed to fetch data:", error);
   data = null;
@@ -25,6 +25,7 @@ try {
 <Layout title="profile">
   <section class="profile-wrapper">
     <Banner data={data} />
+    <UpdateForm client:load/>
   </section>
 </Layout>
 <style lang="scss">

@@ -21,10 +21,13 @@ try {
   <h1>VENUES</h1>
   <VenueSection data={data} client:load />
 </Layout>
-<style>
+<style lang="scss">
   h1 {
     text-align: center;
     margin: 20px 0;
     font-size: 100px;
+    @media(max-width:1100px){
+      font-size: 60px;
+    }
   } 
 </style>

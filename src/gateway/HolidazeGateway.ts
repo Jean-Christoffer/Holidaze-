@@ -22,7 +22,6 @@ class HolidazeGateWay {
     try {
       const response = await HolidazeGateWay.fetchVenues(endpoint, query);
       const data = await response.json();
-      console.log(data.data)
       return data.data;
 
     } catch (err: any) {
@@ -54,7 +53,6 @@ class HolidazeGateWay {
       },
       venueManager: json.venueManager === "on" ? true : false,
     };
-    console.log(newJson)
     try {
       const response = await HolidazeGateWay.registerAccount(endpoint, newJson);
 
@@ -96,11 +94,11 @@ class HolidazeGateWay {
       throw err;
     }
   }
-  
-  public async profile(name: string,token:string,apiKey:string):Promise<any>{
-  
+
+  public async profile(name: string, token: string, apiKey: string): Promise<any> {
+
     try {
-      const response = await HolidazeGateWay.getProfile(name,token,apiKey);
+      const response = await HolidazeGateWay.getProfile(name, token, apiKey);
       if (!response.ok) {
         const data = await response.json();
         const error: any = new Error(data?.errors[0]?.message ?? "Unknown error");
@@ -118,20 +116,76 @@ class HolidazeGateWay {
     }
   }
 
-  private static async getProfile(
+  public async updateProfile(formData: FormData, name: string, token: string, apiKey: string): Promise<any> {
+    const json = Object.fromEntries(formData.entries())
+    const newJson = {
+      ...json,
+      bio: json.bio === "" ? "Awesome customer" : json.bio,
+      avatar: {
+        url: json.avatar === "" ? "https://i.stack.imgur.com/EzZiD.png" : json.avatar,
+        alt: "My avatar alt text",
+      },
+      banner: {
+        url: json.banner === "" ? "https://i.stack.imgur.com/EzZiD.png" : json.banner,
+        alt: "My banner alt text",
+      },
+      venueManager: json.venueManager === "on" ? true : false,
+    };
+    try {
+      const response = await HolidazeGateWay.editeProfile(newJson, name, token, apiKey);
+      if (!response.ok) {
+        const data = await response.json();
+        const error: any = new Error(data?.errors[0]?.message ?? "Unknown error");
+        error.success = false;
+        error.data = data;
+        throw error;
+      }
+      const data = await response.json();
+      return {
+        data:data,
+        success: true,
+        message: "updated profile"
+      }
+
+    } catch (err: any) {
+      console.error(`Error: ${err}`);
+      throw err;
+    }
+  }
+  private static async editeProfile(
+    json: any,
     name: string,
-    token:string,
-    apiKey:string,
+    token: string,
+    apiKey: string,
   ): Promise<Response> {
     const url = `${HolidazeGateWay.profileUrl.toString()}${name}?_bookings=true&_venues=true`;
-    return fetch(url,{
-      method:"GET",
+    return fetch(url, {
+      method: "PUT",
       credentials: "same-origin",
       headers: {
-          Authorization: `Bearer ${token}`,
-          "X-Noroff-API-Key": apiKey
-  }})
-   
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+        "X-Noroff-API-Key": apiKey
+      },
+      body: JSON.stringify(json)
+    })
+
+  }
+  private static async getProfile(
+    name: string,
+    token: string,
+    apiKey: string,
+  ): Promise<Response> {
+    const url = `${HolidazeGateWay.profileUrl.toString()}${name}?_bookings=true&_venues=true`;
+    return fetch(url, {
+      method: "GET",
+      credentials: "same-origin",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "X-Noroff-API-Key": apiKey
+      }
+    })
+
   }
 
   private static async loginToPage(

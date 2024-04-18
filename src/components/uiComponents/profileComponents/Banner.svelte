@@ -11,6 +11,7 @@
     <article class="banner__info">
       <div class="banner__bio">
         <p class="banner__name"><strong>{data?.name}</strong></p>
+        <p class="banner__name"><strong>{data?.bio}</strong></p>
         <p class="banner__status">
           <em>{data?.venueManager ? "Venuemanager" : "Valued customer"}</em>
         </p>
