@@ -65,7 +65,7 @@
   <section>
     {#if venues}
       {#each venues as venue (venue.id)}
-        <div animate:flip={{ delay: 100, duration: 1300, easing: quintOut }}>
+        <div animate:flip={{ delay: 100, duration: 600, easing: quintOut }}>
           <VenueCard data={venue} />
         </div>
       {/each}
@@ -79,7 +79,7 @@
   }
   .section {
     max-width: 1000px;
-    margin: 0 auto;
+    margin: 0 auto 50px auto;
   }
   .tool-bar {
     padding: 16px;
@@ -88,7 +88,7 @@
       background-color: #85c4e6;
       border-radius: 4px;
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
       align-items: center;
       padding: 16px;
       gap: 8px;
@@ -108,6 +108,7 @@
     display: flex;
     gap: 16px;
     align-items: center;
+    justify-content: center;
     max-width: 1000px;
     margin: 0 auto;
     padding: 16px;

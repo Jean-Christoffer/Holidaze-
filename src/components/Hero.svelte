@@ -87,12 +87,12 @@
     justify-content: center;
   }
 
-  @media (max-width: 500px) {
+  @media (max-width: 750px) {
     .hero__article {
       grid-template-columns: 1fr;
       padding: 0 16px;
       h1 {
-        font-size: 70px;
+        font-size: 60px;
       }
       h2 {
         font-size: 30px;
