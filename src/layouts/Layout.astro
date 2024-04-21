@@ -26,7 +26,7 @@ const { title } = Astro.props;
     <header>
       <button data-theme-toggle transition:persist class="darkmode-button"
       ></button>
-      <a href="/" class="logo"><img src="/logo.svg" alt=""/></a>
+      <a href="/" class="logo"><img src="/logo.svg" alt="" /></a>
       <Navigation user={session?.name ?? ""} client:load />
     </header>
     <slot />
@@ -49,6 +49,7 @@ const { title } = Astro.props;
       });
     </script>
     <style is:global lang="scss">
+      @import url("https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Montserrat+Subrayada:wght@400;700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
       :root {
         /* Base theme colors */
         --h1-color: #f2d027 --btn-backround: #85c4e6;
@@ -135,6 +136,7 @@ const { title } = Astro.props;
       p,
       a {
         color: var(--text-color);
+        font-family: "Courier Prime", monospace;
       }
       /* Header, Footer, Buttons, and Figures */
       header,
@@ -153,7 +155,7 @@ const { title } = Astro.props;
         width: 100%;
         justify-content: space-between;
       }
-      .logo{
+      .logo {
         display: block;
         position: absolute;
         left: 50%;
@@ -204,6 +206,11 @@ const { title } = Astro.props;
           -3px 3px 0 var(--h1-border),
           3px -3px 0 var(--h1-border),
           3px 3px 0 var(--h1-border);
+      }
+      h2,
+      h3,
+      h4 {
+        font-family: "Montserrat", sans-serif;
       }
 
       /* Adjusting for dark theme specifically, if needed */
@@ -288,6 +295,45 @@ const { title } = Astro.props;
             margin-top: 8px;
           }
         }
+      }
+      .modal {
+        background-color: #85c4e6;
+        border: 3px solid black;
+        border-radius: 0 !important;
+        margin: auto;
+        box-shadow: var(--figure-border-shadow);
+        max-width: 600px;
+        width: 100%;
+        position: relative;
+        padding: 16px !important;
+        overflow: hidden !important;
+        &::after {
+          content: url("/svg/palm.svg");
+          position: absolute;
+          bottom: -10px;
+          left: -10px;
+          @media (max-width: 1100px) {
+            top: -7px;
+            left: -24px;
+          }
+        }
+        &::before {
+          content: url("/svg/smiley2.svg");
+          position: absolute;
+          top: -20px;
+          right: -10px;
+        }
+      }
+      .modal__content {
+        justify-content: center;
+        align-items: center !important;
+        padding: 16px !important;
+      }
+      .modal__inner {
+        padding: 16px !important;
+      }
+      .modal__close {
+        display: none;
       }
     </style>
   </body>

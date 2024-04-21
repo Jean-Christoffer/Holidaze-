@@ -142,7 +142,7 @@ class HolidazeGateWay {
       }
       const data = await response.json();
       return {
-        data:data,
+        data: data,
         success: true,
         message: "updated profile"
       }
@@ -152,6 +152,56 @@ class HolidazeGateWay {
       throw err;
     }
   }
+  public async book(json: FormData, token: string, apiKey: string): Promise<any> {
+    try {
+      const formattedJson = Object.fromEntries(json.entries())
+      console.log(formattedJson)
+      const newJson = {
+        ...formattedJson,
+        guests: Number(formattedJson.guests)
+      };
+      const response = await HolidazeGateWay.postBooking(newJson, token, apiKey)
+
+
+      if (!response.ok) {
+        const data = await response.json()
+        const error: any = new Error(data?.errors[0]?.message ?? "Unknown error");
+        error.success = false;
+        error.data = data;
+        throw error;
+      }
+      const data = await response.json()
+      return {
+        data: data,
+        success: true,
+        message: "Booked!"
+      }
+    } catch (err: any) {
+      console.error(`Error ${err}`)
+      throw err
+    }
+  }
+  private static async postBooking(
+    json: any,
+    token: string,
+    apiKey: string
+
+  ): Promise<Response> {
+    const endpoint = `/bookings`;
+
+    const url = `${HolidazeGateWay.baseUrl.toString()}${endpoint}`;
+    return fetch(url, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+        "X-Noroff-API-Key": apiKey
+      },
+      body: JSON.stringify(json)
+    })
+  }
+
   private static async editeProfile(
     json: any,
     name: string,
