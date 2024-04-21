@@ -1,7 +1,266 @@
 ---
-export function getStaticPaths() {
-  return [{ params: { venue: "123" } }];
-}
+import Layout from "../../layouts/Layout.astro";
+import { HolidazeGateWay } from "../../gateway/HolidazeGateway";
+import { countryToAlpha2 } from "country-to-iso";
+import Ratings from "../../components/uiComponents/Ratings.svelte";
+import ModalForm from "../../components/uiComponents/modal/ModalForm.astro";
+import type { Venue } from "../../types/types";
 
 const { venue } = Astro.params;
+const holidazeGateWay = new HolidazeGateWay();
+
+let data: any;
+try {
+  const fetchedData = await holidazeGateWay.getVenues({ id: venue, query: "" });
+  data = fetchedData;
+} catch (error) {
+  console.error("Failed to fetch data:", error);
+  data = {};
+}
+console.log(data);
+const country = countryToAlpha2(data?.location?.country);
 ---
+
+<Layout title="Venue">
+  <section class="venue">
+    <ModalForm bookings={data?.bookings} max={data?.maxGuests} id={venue} />
+    <figure class="venue__wrapper">
+      <div class="venue__img-container">
+        <img alt="" src={data?.media[0]?.url} />
+        <div class="venue__location">
+          <p>{data?.location?.city}</p>
+          {
+            data?.location?.country ? (
+              <img src={`https://flagsapi.com/${country}/shiny/64.png`} />
+            ) : (
+              ""
+            )
+          }
+        </div>
+      </div>
+
+      <article class="venue__body">
+        <h2>{data?.name}</h2>
+        <p>{data?.description}</p>
+        {
+          data?.rating ? (
+            <div class="venue__rating">
+              <Ratings number={data?.rating} />
+            </div>
+          ) : (
+            ""
+          )
+        }
+        <p><strong><em>Max {data?.maxGuests} guests</em></strong></p>
+        <h4 class="price">${data?.price} Per night</h4>
+      </article>
+
+      <div class="venue__info">
+        <div class="venue__owner">
+          <div class="venue__owner__img-container">
+            <img alt="" src={data?.owner?.avatar?.url} />
+          </div>
+          <p><strong>{data?.owner?.name} is host</strong></p>
+        </div>
+      </div>
+      <div class="desktop">
+        <div class="venue__amenities">
+          <div class="venue__amenities__container">
+            <div class="svg-container">
+              <img src="/svg/wifi.svg" alt="logo" />
+              <p>{data?.meta?.wifi ? "WIFI included" : "Wifi not included"}</p>
+            </div>
+            <div class="svg-container">
+              <img src="/svg/parking.svg" alt="logo" />
+              <p>
+                {
+                  data?.meta?.parking
+                    ? "Parking included"
+                    : "Parking not included"
+                }
+              </p>
+            </div>
+            <div class="svg-container">
+              <img src="/svg/food.svg" alt="logo" />
+              <p>
+                {
+                  data?.meta?.breakfast
+                    ? "Breakfast included"
+                    : "Breakfast not  included"
+                }
+              </p>
+            </div>
+            <div class="svg-container">
+              <img src="/svg/pets.svg" alt="logo" />
+              <p>
+                {
+                  data?.meta?.pets
+                    ? "Pets are allowed"
+                    : "Pets are not allowed at this venue"
+                }
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="btn-container">
+          <button id="modal1-trigger">SEE AVAILABLE DATES</button>
+        </div>
+      </div>
+    </figure>
+  </section>
+</Layout>
+<style lang="scss">
+  .svg-container {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+  .venue {
+    max-width: 700px;
+    margin: auto;
+    &__wrapper {
+      margin: 0px 0;
+      background-color: white;
+      border: 0px;
+      @media (min-width: 1100px) {
+        border: 3px solid black;
+        margin: 20px auto;
+      }
+    }
+    &__img-container {
+      max-width: 100%;
+      position: relative;
+      border-bottom: 3px solid black;
+      img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        object-position: center;
+      }
+    }
+    &__location {
+      width: 100%;
+      padding: 16px;
+      display: flex;
+      position: absolute;
+      gap: 8px;
+      align-items: center;
+      top: 0;
+      z-index: 10;
+      text-shadow: 1px 1px 1px black;
+      background: linear-gradient(
+        180deg,
+        rgba(0, 27, 65, 0.65) 0,
+        rgba(0, 27, 65, 0)
+      );
+
+      p {
+        color: white;
+        font-weight: bold;
+        font-size: 24px;
+        font-family: "Montserrat", sans-serif;
+      }
+      img {
+        width: 34px;
+        height: 34px;
+        display: block;
+        object-fit: cover;
+        object-position: center;
+      }
+    }
+    &__body {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 16px;
+      max-width: 500px;
+      h4 {
+        font-size: 24px;
+      }
+      h2 {
+        font-weight: bolder;
+        font-family: "Montserrat", sans-serif;
+      }
+    }
+    &__info {
+      margin: 0 16px;
+      border-top: 3px solid black;
+      border-bottom: 3px solid black;
+    }
+    &__owner {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 16px;
+      margin-bottom: 16px;
+
+      &__img-container {
+        width: 40px;
+        height: 40px;
+        background-color: var(--background-color);
+        box-shadow: var(--figure-border-shadow);
+        overflow: hidden;
+        border-radius: 50%;
+        img {
+          display: block;
+          width: 100%;
+          height: 100%;
+          display: block;
+          object-fit: cover;
+          object-position: center;
+        }
+      }
+    }
+    .btn-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      @media (min-width: 1100px) {
+        max-width: 300px;
+        height: 125px;
+      }
+
+      button {
+        padding: 15px;
+        margin: 30px auto;
+        width: 90%;
+        font-size: 15px;
+        background: var(--btn-backround);
+        border-radius: 30px;
+        font-weight: 800;
+        box-shadow: 5px 5px 0px 0px var(--border-color);
+        &:focus {
+          transform: translateY(4px);
+          box-shadow: 1px 2px 0px 0px var(--border-color);
+        }
+      }
+    }
+    &__amenities {
+      margin: 16px 16px 0 16px;
+      padding-bottom: 16px;
+      border-bottom: 3px solid black;
+      @media (min-width: 1100px) {
+        border-bottom: 0px;
+        margin: 16px 16px 0 16px;
+      }
+      &__container {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        img {
+          width: 24px;
+          height: 24px;
+          display: block;
+        }
+      }
+    }
+    @media (min-width: 1100px) {
+      .desktop {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+</style>

@@ -26,7 +26,12 @@ export interface User {
   _count: Count;
 }
 
+export interface createBooking{
+  dateFrom:string;
+  dateTo:string;
+  guests:number;
 
+}
 type Media = {
   url: string;
   alt: string;
@@ -62,7 +67,7 @@ interface Image {
   alt: string;
 }
 
-interface Booking {
+export interface Booking {
   id: string;
   dateFrom: string;
   dateTo: string;
