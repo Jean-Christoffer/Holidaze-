@@ -1,27 +1,21 @@
 <script lang="ts">
   import SnackBar from "../uiComponents/SnackBar.svelte";
 
-
   let bio = "";
   let avatar = "";
   let venueManager = false;
   let banner = "";
 
-  // Regex patterns
   const urlPattern = /^(http|https):\/\/[^ "]+$/;
 
-  // Error messages
   let urlError = "";
   let bannerError = "";
   ("");
 
-  // Reactive statements for error checking
   $: {
     urlError = validateAvatar(avatar);
     bannerError = validateAvatar(banner);
   }
-
-  // Validation functions
 
   function validateAvatar(url: string) {
     if (!urlPattern.test(url)) {
@@ -35,9 +29,8 @@
   async function submit(e: SubmitEvent) {
     e.preventDefault();
     showSnackbar = false;
- 
+
     try {
-    
       const formData = new FormData(e.currentTarget as HTMLFormElement);
       const response = await fetch("/api/auth/update", {
         method: "POST",
@@ -60,7 +53,7 @@
 </script>
 
 <div class="form_area">
-  <h4 class="title">SIGN IN</h4>
+  <h4 class="title">UPDATE PROFILE</h4>
   <form on:submit={submit}>
     <div class="form_group">
       <label for="bio" class="sub_title">Bio</label>
@@ -68,26 +61,14 @@
     </div>
     <div class="form_group">
       <label for="avatar" class="sub_title">Avatar</label>
-      <input
-        type="text"
-        name="avatar"
-        bind:value={avatar}
-       
-        class="form_style"
-      />
+      <input type="text" name="avatar" bind:value={avatar} class="form_style" />
       {#if urlError}
         <div class="error">{urlError}</div>
       {/if}
     </div>
     <div class="form_group">
       <label for="banner" class="sub_title">Banner</label>
-      <input
-        type="text"
-        name="banner"
-        bind:value={banner}
-  
-        class="form_style"
-      />
+      <input type="text" name="banner" bind:value={banner} class="form_style" />
       {#if bannerError}
         <div class="error">{bannerError}</div>
       {/if}

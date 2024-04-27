@@ -9,16 +9,15 @@ import type { Venue } from "../../types/types";
 const { venue } = Astro.params;
 const holidazeGateWay = new HolidazeGateWay();
 
-let data: any;
+let data: Venue | null;
 try {
   const fetchedData = await holidazeGateWay.getVenues({ id: venue, query: "" });
-  data = fetchedData;
+  data = fetchedData?.data;
 } catch (error) {
   console.error("Failed to fetch data:", error);
-  data = {};
+  data = null;
 }
-console.log(data);
-const country = countryToAlpha2(data?.location?.country);
+const country = data ? countryToAlpha2(data?.location?.country) : "NO";
 ---
 
 <Layout title="Venue">

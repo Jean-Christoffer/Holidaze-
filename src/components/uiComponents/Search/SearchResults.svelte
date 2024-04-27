@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { Venues } from "../../../types/types";
-  export let data: Venues;
+  import type { Venue } from "../../../types/types";
+  export let data: Array<Venue>;
 </script>
 
 {#each data as result}

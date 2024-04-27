@@ -6,7 +6,7 @@ import { HolidazeGateWay } from "../../../gateway/HolidazeGateway";
 
 const holidazeGateWay = new HolidazeGateWay();
 
-export const POST: APIRoute = async ({ cookies, redirect, request }:APIContext): Promise<Response> => {
+export const POST: APIRoute = async ({ cookies, redirect, request }: APIContext): Promise<Response> => {
 
   const sessionCookie = cookies.get("session")?.json();
 
@@ -19,18 +19,18 @@ export const POST: APIRoute = async ({ cookies, redirect, request }:APIContext):
       import.meta.env.API_KEY
     );
 
-    if(response.success){
+    if (response.success) {
       return Response.json({
         success: true,
         message: response.message,
         result: 'Data from Astro Endpoint!'
-    })
+      })
     }
     return new Response(
       JSON.stringify({
-        message: response.message,  
+        message: response.message,
         success: false,
-      }), 
+      }),
       { status: 200 }
     );
   } catch (err: any) {

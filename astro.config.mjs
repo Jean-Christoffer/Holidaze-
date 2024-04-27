@@ -6,7 +6,11 @@ import svelte from "@astrojs/svelte";
 export default defineConfig({
   output: 'server',
   integrations: [svelte()],
-
+	vite: {
+		optimizeDeps: {
+			exclude: ["oslo"]
+		}
+	},
   redirects: {
     'src/pages/a': 'src/pages/b',
   },

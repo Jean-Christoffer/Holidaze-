@@ -1,3 +1,7 @@
+
+export interface VenueData{
+  data:Venue;
+}
 export interface Venue {
   id: string;
   name: string;
@@ -8,11 +12,13 @@ export interface Venue {
   rating: number;
   created: string;
   updated: string;
-  meta: Meta[];
+  meta: Meta;
   location: Location;
   _count: Count;
+  bookings:Booking[];
+  owner:User;
 }
-export type Venues = Array<Venue>
+
 
 export interface User {
   name: string;

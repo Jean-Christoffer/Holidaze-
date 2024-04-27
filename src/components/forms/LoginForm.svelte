@@ -1,22 +1,19 @@
 <script lang="ts">
   import SnackBar from "../uiComponents/SnackBar.svelte";
+  
   let password = "";
   let email = "";
-  // Regex patterns
+
   const mailRegex = /^[a-zA-Z0-9._%+-]+@(stud\.)?noroff\.no$/;
 
-  // Error messages
   let emailError = "";
   let passwordError = "";
   ("");
 
-  // Reactive statements for error checking
   $: {
     emailError = validateEmail(email);
     passwordError = validatePassword(password);
   }
-
-  // Validation functions
 
   function validateEmail(email: string) {
     if (!mailRegex.test(email)) {
@@ -51,7 +48,7 @@
         password = "";
       }
       if (data.success) {
-        window.location.href = "/profile";
+        window.location.href = "/";
       }
     } catch (err) {
       console.log(err);
@@ -90,10 +87,14 @@
     </div>
     <div class="btn-container">
       <button class="btn">SIGN IN!</button>
-      <p>Dont have an Account? <a href="/register/" class="link">Register Here!</a></p>
+      <p>
+        Dont have an Account? <a href="/register/" class="link"
+          >Register Here!</a
+        >
+      </p>
     </div>
   </form>
   {#if showSnackbar}
     <SnackBar message={errorMessage} show={true} isSuccess={false} />
   {/if}
-</div> 
+</div>

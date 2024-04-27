@@ -1,10 +1,10 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
-  import type { Venues } from "../../types/types";
+  import type { Venue } from "../../types/types";
   import { gsap } from "gsap";
   import _ from "lodash";
 
-  export let data: Venues;
+  export let data: Array<Venue>;
 
   type MarqueeInstance = {
     marquee: HTMLElement | null;

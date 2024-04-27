@@ -5,10 +5,10 @@
   import { fade } from "svelte/transition";
   import { slide } from "svelte/transition";
 
-  import type { Venues } from "../../../types/types";
+  import type { Venue } from "../../../types/types";
 
   let searchTerm: string = "";
-  let data: Venues;
+  let data: Array<Venue>;
 
   export let isVisible: boolean;
 
@@ -21,7 +21,8 @@
       data = [];
     } else {
       const fetchedData = await holidazeGateWay.getVenues({ query: "" });
-      data = Array.isArray(fetchedData) ? fetchedData : [fetchedData];
+      const response = fetchedData?.data
+      data = Array.isArray(response) ? response : [response];
     }
   }, 500);
 
