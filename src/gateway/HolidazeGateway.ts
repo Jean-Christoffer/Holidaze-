@@ -43,7 +43,7 @@ class HolidazeGateWay {
 
   public async getVenues(options: { id?: string, query?: string, retryCount?: number } = {}): Promise<VenueData> {
     const { id = "", query = "", retryCount = 3 } = options;
-    const endpoint = `${HolidazeGateWay.baseUrl}/holidaze/venues${id ? `/${id}` : ''}${query ? `?query=${query}` : ''}?_bookings=true&_venues=true`;
+    const endpoint = `${HolidazeGateWay.baseUrl}/holidaze/venues${id ? `/${id}` : ''}${query ? `?query=${query}` : ''}?_bookings=true&_venues=true&_owner=true`;
 
     try {
       return await HolidazeGateWay.httpRequest('GET', endpoint);
@@ -101,6 +101,10 @@ class HolidazeGateWay {
   public async cancelBooking(bookingId: any, token: string, apiKey: string): Promise<any> {
     const id = Object.fromEntries(bookingId.entries());
     return await HolidazeGateWay.httpRequest('DELETE', `${HolidazeGateWay.baseUrl}/holidaze/bookings/${id?.bookingId}`, null, token, apiKey);
+  }
+
+  public async createVenue(formData: FormData, token: string, apiKey: string): Promise<any> {
+    return await HolidazeGateWay.httpRequest('POST', `${HolidazeGateWay.baseUrl}/holidaze/venues`, formData, token, apiKey);
   }
 }
 

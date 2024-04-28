@@ -140,7 +140,7 @@
     <div class="marquee-content">
       {#each data as images}
         <figure>
-          <img alt="" src={images.media[0].url} />
+          <img alt="" src={images?.media[0]?.url} />
         </figure>
       {/each}
     </div>

@@ -1,6 +1,6 @@
 
-export interface VenueData{
-  data:Venue;
+export interface VenueData {
+  data: Venue;
 }
 export interface Venue {
   id: string;
@@ -15,10 +15,36 @@ export interface Venue {
   meta: Meta;
   location: Location;
   _count: Count;
-  bookings:Booking[];
-  owner:User;
+  bookings: Booking[];
+  owner: User;
 }
-
+export interface VenueForm {
+  name: string;
+  description: string;
+  media: [
+    {
+      url: string;
+    },
+  ],
+  price: number;
+  maxGuests: number;
+  rating: number;
+  meta: {
+    wifi: boolean;
+    parking: boolean;
+    breakfast: boolean;
+    pets: boolean;
+  },
+  location: {
+    address: string;
+    city: string;
+    zip: string;
+    country: string;
+    continent: string;
+    lat?: number;
+    lng?: number;
+  },
+}
 
 export interface User {
   name: string;
@@ -32,23 +58,23 @@ export interface User {
   _count: Count;
 }
 
-export interface createBooking{
-  dateFrom:string;
-  dateTo:string;
-  guests:number;
+export interface createBooking {
+  dateFrom: string;
+  dateTo: string;
+  guests: number;
 
 }
 type Media = {
   url: string;
   alt: string;
 };
-type Meta = {
+export type Meta = {
   wifi: boolean;
   parking: boolean;
   breakfast: boolean;
   pets: boolean;
 };
-type Location = {
+export type Location = {
   address: string;
   city: string;
   zip: string;

@@ -23,7 +23,7 @@
   </div>
   <li><a href="/bookings">My bookings</a></li>
   {#if isVenueManager}
-    <li><button>Create venue</button></li>
+    <li><button id="modal3-trigger">Create venue</button></li>
     <li><a href="/venueBookings">Manage venues</a></li>
   {/if}
   <li><button id="modal2-trigger">Edit profile</button></li>
