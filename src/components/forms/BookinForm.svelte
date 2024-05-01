@@ -22,7 +22,7 @@
 
   let startDate: Date | undefined;
   let endDate: Date | undefined;
-  let guestAmount: number = 0;
+  let guestAmount: number = 1;
   let startDateFormatted: string | undefined;
   let endDateFormatted: string | undefined;
 
@@ -30,7 +30,6 @@
     guestAmount = max;
   }
 
-  console.log(guestAmount);
   $: startDateFormatted = startDate
     ? format(startDate, "yyyy-MM-dd")
     : undefined;
@@ -166,6 +165,7 @@
           name="guests"
           bind:value={guestAmount}
           {max}
+          min="1"
           class="guests"
         />
         <button type="submit" class="book-btn">Book now</button>

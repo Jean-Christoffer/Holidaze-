@@ -8,14 +8,14 @@ export const POST: APIRoute = async ({ cookies, redirect, request }) => {
   try {
     const data = await request.formData();
     const response = await holidazeGateWay.login(data)
-    const accessToken = response.accessToken;
-    const name = response.name;
+    const accessToken = response?.data?.accessToken;
+    const name = response?.data?.name;
 
     cookies.set('session', JSON.stringify({ accessToken, name }), {
       path: '/',
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      maxAge: 60 * 60 * 24 * 1
+      maxAge: 60 * 60 * 24 * 7
     });
 
     return new Response(

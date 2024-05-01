@@ -1,20 +1,17 @@
 
 import type { APIRoute } from "astro";
-import type { APIContext } from 'astro';
 import { HolidazeGateWay } from "../../../gateway/HolidazeGateway";
-
 
 const holidazeGateWay = new HolidazeGateWay();
 
-export const POST: APIRoute = async ({ cookies, redirect, request }: APIContext): Promise<Response> => {
+export const POST: APIRoute = async ({ cookies, redirect, request }): Promise<Response> => {
 
   const sessionCookie = cookies.get("session")?.json();
 
   try {
-    const data = await request.formData();
-    const response = await holidazeGateWay.updateProfile(
+    const data = await request.json();
+    const response = await holidazeGateWay.createVenue(
       data,
-      sessionCookie?.name,
       sessionCookie?.accessToken,
       import.meta.env.API_KEY
     );
@@ -34,6 +31,7 @@ export const POST: APIRoute = async ({ cookies, redirect, request }: APIContext)
       { status: 200 }
     );
   } catch (err: any) {
+    console.log(err)
     return new Response(
       JSON.stringify({
         message: `${err}`,

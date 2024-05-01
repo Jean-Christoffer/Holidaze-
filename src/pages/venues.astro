@@ -4,13 +4,17 @@ import VenueSection from "../components/VenueSection.svelte";
 
 import { HolidazeGateWay } from "../gateway/HolidazeGateway";
 
-import type { Venues } from "../types/types";
+import type { Venue } from "../types/types";
 
 const holidazeGateWay = new HolidazeGateWay();
-let data: Venues;
+let data: Array<Venue>;
 try {
   const fetchedData = await holidazeGateWay.getVenues({ query: "" });
-  data = Array.isArray(fetchedData) ? fetchedData : [fetchedData];
+  if (Array.isArray(fetchedData?.data)) {
+    data = fetchedData.data;
+  } else {
+    data = [];
+  }
 } catch (error) {
   console.error("Failed to fetch data:", error);
   data = [];
@@ -26,8 +30,8 @@ try {
     text-align: center;
     margin: 20px 0;
     font-size: 100px;
-    @media(max-width:1100px){
+    @media (max-width: 1100px) {
       font-size: 60px;
     }
-  } 
+  }
 </style>

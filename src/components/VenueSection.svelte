@@ -1,10 +1,10 @@
 <script lang="ts">
   import VenueCard from "./uiComponents/VenueCard.svelte";
-  import type { Venues } from "../types/types";
+  import type { Venue } from "../types/types";
   import { flip } from "svelte/animate";
   import { quintOut } from "svelte/easing";
 
-  export let data: Venues;
+  export let data: Array<Venue>;
 
   let venues = data.sort(
     (a, b) => cleanAndConvertPrice(b.price) - cleanAndConvertPrice(a.price)

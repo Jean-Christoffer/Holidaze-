@@ -1,6 +1,8 @@
 <script lang="ts">
   import Search from "../Search/Search.svelte";
+
   export let user: string = "";
+
   let isVisible = false;
   let isUser: boolean;
 
@@ -15,14 +17,13 @@
       name: "Contact",
       route: "/contact/",
     },
-    {
-      name: "Profile",
-      route: "/profile/",
-    },
   ];
 
   function handleActive() {
     isVisible = !isVisible;
+    isVisible
+      ? (document.body.style.overflow = "hidden")
+      : (document.body.style.overflow = "auto");
   }
   let showMenu = false;
 
@@ -91,14 +92,6 @@
     {#if !isUser}
       <li class="nav__ul__li">
         <a href="/login" class="text-gray-800 hover:text-gray-400">Login</a>
-      </li>
-    {/if}
-
-    {#if isUser}
-      <li class="li-form">
-        <form action="/logout" method="POST">
-          <button type="submit"><p>Logout</p></button>
-        </form>
       </li>
     {/if}
   </ul>

@@ -1,8 +1,6 @@
 
 import type { APIRoute } from "astro";
-import type { APIContext } from 'astro';
 import { HolidazeGateWay } from "../../../gateway/HolidazeGateway";
-
 
 const holidazeGateWay = new HolidazeGateWay();
 
@@ -34,6 +32,7 @@ export const POST: APIRoute = async ({ cookies, redirect, request }): Promise<Re
       { status: 200 }
     );
   } catch (err: any) {
+    console.log(err)
     return new Response(
       JSON.stringify({
         message: `${err}`,

@@ -2,12 +2,13 @@
 import Footer from "../components/Footer.svelte";
 import { ViewTransitions, fade } from "astro:transitions";
 import Navigation from "../components/uiComponents/headerComponents/Navigation.svelte";
+import Profile from "../components/profile.astro";
 
-const session = Astro.cookies.get("session")?.json();
 interface Props {
   title: string;
 }
-
+const { user } = Astro.locals;
+console.log(user)
 const { title } = Astro.props;
 ---
 
@@ -26,8 +27,12 @@ const { title } = Astro.props;
     <header>
       <button data-theme-toggle transition:persist class="darkmode-button"
       ></button>
+
       <a href="/" class="logo"><img src="/logo.svg" alt="" /></a>
-      <Navigation user={session?.name ?? ""} client:load />
+      <div class="nav-profile">
+        <Navigation user={user ?? ""} client:load />
+        {user ? <Profile /> : ""}
+      </div>
     </header>
     <slot />
     <Footer />
@@ -122,6 +127,13 @@ const { title } = Astro.props;
       }
       svg {
         display: block;
+      }
+      .nav-profile {
+        display: flex;
+        align-items: center;
+        @media (max-width: 1100px) {
+          gap: 16px;
+        }
       }
       body {
         display: flex;

@@ -8,18 +8,15 @@
   let avatar = "";
   let venueManager = false;
 
-  // Regex patterns
   const mailRegex = /^[a-zA-Z0-9._%+-]+@(stud\.)?noroff\.no$/;
   const urlPattern = /^(http|https):\/\/[^ "]+$/;
   const nameRegex = /^[a-zA-Z0-9_]+$/;
 
-  // Error messages
   let nameError = "";
   let emailError = "";
   let passwordError = "";
   let urlError = "";
 
-  // Reactive statements for error checking
   $: {
     nameError = validateName(name);
     emailError = validateEmail(email);
@@ -27,7 +24,6 @@
     urlError = validateAvatar(avatar);
   }
 
-  // Validation functions
   function validateName(name: string) {
     if (name.length < 3) {
       return "Name must be at least 3 characters long.";

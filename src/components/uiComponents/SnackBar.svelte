@@ -2,7 +2,6 @@
   export let message = "";
   export let show: boolean = false;
   export let isSuccess: boolean = true;
-  export let status: string = "";
   $: {
     if ((show = true)) {
       setTimeout(() => {

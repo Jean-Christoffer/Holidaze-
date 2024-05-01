@@ -4,13 +4,18 @@ import Hero from "../components/Hero.svelte";
 import { HolidazeGateWay } from "../gateway/HolidazeGateway";
 import Carousel from "../components/uiComponents/Carousel.svelte";
 import About from "../components/About.svelte";
-import type { Venues } from "../types/types";
+import type { Venue } from "../types/types";
 
 const holidazeGateWay = new HolidazeGateWay();
-let data: Venues;
+let data: Array<Venue>;
 try {
   const fetchedData = await holidazeGateWay.getVenues({ query: "" });
-  data = Array.isArray(fetchedData) ? fetchedData : [fetchedData];
+  if (Array.isArray(fetchedData?.data)) {
+    data = fetchedData.data;
+  } else {
+    data = []; 
+  }
+
 } catch (error) {
   console.error("Failed to fetch data:", error);
   data = [];
