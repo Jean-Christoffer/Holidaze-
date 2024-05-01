@@ -49,6 +49,7 @@
       padding-top: 8px;
       gap: 8px;
       width: 100%;
+      color: black;
     }
     &__title {
       text-transform: uppercase;
@@ -56,6 +57,7 @@
     }
     &__location {
       font-weight: bold;
+      color: black;
     }
     &__price {
       font-size: 24px;

@@ -79,7 +79,7 @@
 
     a {
       text-decoration: none;
-      color: var(--text-color);
+      color:black;
       font-weight: bold;
     }
 
@@ -89,7 +89,7 @@
       border: none;
       outline: none;
       font-family: "Courier Prime", monospace;
-      color: var(--text-color);
+      color:black;
       font-weight: bold;
     }
   }

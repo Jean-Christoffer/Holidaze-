@@ -155,6 +155,9 @@
     .search-btn {
       font-size: 24px;
       margin: 0px 5px 5px 16px;
+      svg path{
+        fill: var(--text-color);
+      }
       @media (max-width: 750px) {
         &.search-desktop {
           display: none;

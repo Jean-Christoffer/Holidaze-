@@ -150,6 +150,7 @@
 <style lang="scss">
   .wrapper {
     margin: 50px 0;
+    height: 100%;
   }
   .marquee {
     display: flex;

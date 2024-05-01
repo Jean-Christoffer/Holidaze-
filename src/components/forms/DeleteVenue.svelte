@@ -27,7 +27,7 @@
 <style lang="scss">
   .delte-btn {
     position: absolute;
-    bottom:20px;
+    bottom:50px;
     right: 16px;
     button {
       padding: 15px;
@@ -37,6 +37,7 @@
       background: #d93843;
       border-radius: 30px;
       font-weight: 800;
+      border: 3px solid black;
       box-shadow: 5px 5px 0px 0px var(--border-color);
     }
   }

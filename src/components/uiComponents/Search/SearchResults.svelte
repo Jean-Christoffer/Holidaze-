@@ -29,9 +29,17 @@
     text-decoration: none;
   }
   .search-results__card {
+    p {
+      color: black;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 158px;
+    }
+
     width: 90%;
     display: flex;
-    align-items: top;
+    align-items: center;
     font-weight: bold;
     gap: 8px;
     font-size: 24px;
@@ -42,6 +50,8 @@
     .search-results__img-container {
       width: 100px;
       height: 100px;
+      flex-shrink: 0;
+      background-color: #4889ff;
       img {
         display: block;
         width: 100%;

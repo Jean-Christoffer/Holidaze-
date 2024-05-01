@@ -101,6 +101,7 @@
       background-color: #f2d027;
       width: 180px;
       text-align: center;
+      border-color: black;
     }
   }
   section,

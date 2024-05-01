@@ -21,7 +21,7 @@
       data = [];
     } else {
       const fetchedData = await holidazeGateWay.getVenues({ query: "" });
-      const response = fetchedData?.data
+      const response = fetchedData?.data;
       data = Array.isArray(response) ? response : [response];
     }
   }, 500);
@@ -125,13 +125,14 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.5); // Custom color for overlay
+        background-color: rgba(0, 0, 0, 0.5);
       }
 
       .side-panel {
+        background-color: var(--search-background-color);
         position: absolute;
-        background-color: #85c4e6;
-        border-left: 3px solid black;
+
+        border-left: 3px solid var(--search-border-color);
         top: 0;
         right: 0;
         width: 400px;
@@ -153,7 +154,6 @@
       .panel-header {
         position: sticky;
         top: 0;
-        background-color: #85c4e6;
         padding: 8px;
         z-index: 10;
 
@@ -192,15 +192,14 @@
       .content-area {
         padding: 8px;
         overflow: auto;
-        height: calc(
-          100% - 56px
-        ); // Adjust based on the height of the panel-header
+        height: calc(100% - 150px);
 
         .results-container {
-          padding-top: 24px;
+          padding: 24px 0;
           display: flex;
           flex-direction: column;
           gap: 16px;
+  
 
           .results-button {
             text-align: left;
@@ -208,6 +207,7 @@
 
           .no-results {
             margin-top: 16px;
+            padding-left: 8px;
           }
         }
       }

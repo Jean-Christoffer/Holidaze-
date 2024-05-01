@@ -150,6 +150,9 @@
         background-color: #4889ff;
         font-weight: bold;
         text-transform: uppercase;
+        p {
+          color: black;
+        }
       }
     }
     .img-1 {

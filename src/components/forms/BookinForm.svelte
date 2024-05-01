@@ -281,7 +281,7 @@
     align-items: center;
     gap: 0;
     border: 3px solid black;
-    background-color: var(--background-color);
+    background-color: #f2d027;
   }
   .guests {
     padding: 15px;
@@ -300,7 +300,7 @@
     padding: 15px;
     display: block;
     font-size: 15px;
-    background-color: var(--background-color);
+    background-color: #f2d027;
     font-weight: 800;
     text-transform: uppercase;
   }

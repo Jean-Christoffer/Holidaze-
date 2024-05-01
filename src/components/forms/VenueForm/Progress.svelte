@@ -45,7 +45,7 @@
   }
 
   .progress {
-    background-color: var(--background-color, #85c4e6);
+    background-color:#85c4e6;
     position: absolute;
     top: 50%;
     left: 0;
@@ -70,6 +70,6 @@
   }
 
   .circle.active {
-    border-color: var(--background-color, #0077cc);
+    border-color: var(--circle-color);
   }
 </style>
