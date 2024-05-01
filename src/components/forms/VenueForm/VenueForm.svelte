@@ -3,6 +3,9 @@
   import Meta from "./Meta.svelte";
   import Location from "./Location.svelte";
   import Progress from "./Progress.svelte";
+  import { onMount } from "svelte";
+
+  export let initialVenue: VenueForm | null = null;
 
   let currentStep = 1;
 
@@ -31,7 +34,11 @@
       continent: "",
     },
   };
-
+  onMount(() => {
+    if (initialVenue) {
+      venue = { ...venue, ...initialVenue };
+    }
+  });
   const urlPattern = /^(http|https):\/\/[^ "]+$/;
   const nameRegex = /^[a-zA-Z0-9_ ]+$/;
 
@@ -39,7 +46,7 @@
   let urlError = "";
   let nameError = "";
   let isDisabled: boolean = true;
-
+  let steps = ["Step 1", "Step 2", "Step 3", "Step 4"];
   $: {
     nameError = validateName(venue.name);
     urlError = validateUrl(venue.media[0].url);
@@ -82,20 +89,14 @@
     return "";
   }
 
-  let steps = ["1", "2", "3", "4"],
-    currentActive = 1,
-    progressBar: Progress;
-
-  const handleProgress = (stepIncrement: number) => {
-    progressBar.handleProgress(stepIncrement);
-  };
+  let currentActive: number = 1;
 
   function getSectionClass(stepNumber: number) {
     return currentStep === stepNumber ? "active" : "hidden";
   }
   function nextStep() {
     if (currentStep < 3) currentStep += 1;
-    handleProgress(+1);
+    handleProgress(1);
   }
 
   function prevStep() {
@@ -106,23 +107,31 @@
     e.preventDefault();
 
     try {
-      const response = await fetch("/api/auth/createVenue", {
-        method: "POST",
-        body: JSON.stringify(venue),
-      });
+      const response = await fetch(
+        initialVenue ? `/api/auth/updateVenue` : "/api/auth/createVenue",
+        {
+          method: "POST",
+          body: JSON.stringify(venue),
+        }
+      );
       const data = await response.json();
       if (data.success) {
-       handleProgress(+1);
-       currentStep = 4
+        handleProgress(1);
       }
     } catch (err) {
       console.log(err);
     }
   }
+
+  function handleProgress(stepIncrement: number) {
+    const newActive = currentActive + stepIncrement;
+    currentActive = Math.max(1, Math.min(steps.length, newActive));
+    console.log(currentActive);
+  }
 </script>
 
 <div class="form_area">
-  <Progress {steps} bind:currentActive bind:this={progressBar} />
+  <Progress {steps} {currentActive} />
   <h4 class="title">Create venue</h4>
   <form on:submit={submit}>
     {#if currentStep === 1}

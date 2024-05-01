@@ -68,7 +68,6 @@ class HolidazeGateWay {
 
   public async login(formData: FormData): Promise<any> {
     const formJson = Object.fromEntries(formData.entries());
-    console.log(`${HolidazeGateWay.authUrl}/login`)
     return await HolidazeGateWay.httpRequest('POST', `${HolidazeGateWay.authUrl}/login`, formJson);
   }
 
@@ -98,13 +97,25 @@ class HolidazeGateWay {
     return await HolidazeGateWay.httpRequest('POST', `${HolidazeGateWay.baseUrl}/holidaze/bookings`, formattedJson, token, apiKey);
   }
 
-  public async cancelBooking(bookingId: any, token: string, apiKey: string): Promise<any> {
+  public async cancelBooking(bookingId: FormData, token: string, apiKey: string): Promise<any> {
     const id = Object.fromEntries(bookingId.entries());
     return await HolidazeGateWay.httpRequest('DELETE', `${HolidazeGateWay.baseUrl}/holidaze/bookings/${id?.bookingId}`, null, token, apiKey);
   }
 
   public async createVenue(formData: FormData, token: string, apiKey: string): Promise<any> {
     return await HolidazeGateWay.httpRequest('POST', `${HolidazeGateWay.baseUrl}/holidaze/venues`, formData, token, apiKey);
+  }
+  public async updateVenue(formData: FormData, token: string, apiKey: string): Promise<any> {
+    const id = formData
+
+    console.log(formData)
+    return await HolidazeGateWay.httpRequest('PUT', `${HolidazeGateWay.baseUrl}/holidaze/venues/${formData?.id}`, formData, token, apiKey);
+  }
+
+
+  public async deleteVenue(venueId: FormData, token: string, apiKey: string): Promise<any> {
+    const id = Object.fromEntries(venueId.entries());
+    return await HolidazeGateWay.httpRequest('DELETE', `${HolidazeGateWay.baseUrl}/holidaze/venues/${id?.venueid}`, null, token, apiKey);
   }
 }
 

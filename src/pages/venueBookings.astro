@@ -1,0 +1,46 @@
+---
+import { HolidazeGateWay } from "../gateway/HolidazeGateway";
+import Layout from "../layouts/Layout.astro";
+import VenueSection from "../components/VenueSection.svelte";
+
+import type { Venue } from "../types/types";
+
+const holidazeGateWay = new HolidazeGateWay();
+const { user, token } = Astro.locals;
+
+if (!user || !token) return;
+
+let data: Venue[];
+try {
+  const fetchedData = await holidazeGateWay.profile(
+    user,
+    token,
+    import.meta.env.API_KEY
+  );
+  data = fetchedData?.data?.venues;
+} catch (error) {
+  console.error("Failed to fetch data:", error);
+  data = [];
+}
+---
+
+<Layout title="Your venues">
+  <section>
+    <h1>Your venues</h1>
+    <div class="venues">
+        <VenueSection data={data} client:load/>
+    </div>
+  </section>
+</Layout>
+<style lang="scss">
+  section {
+    h1 {
+      font-size: 100px;
+      text-align: center;
+      @media (max-width: 1100px) {
+        font-size: 40px;
+      }
+    }
+  }
+
+</style>

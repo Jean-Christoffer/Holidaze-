@@ -10,7 +10,8 @@ export const POST: APIRoute = async ({ cookies, redirect, request }): Promise<Re
 
   try {
     const data = await request.json();
-    const response = await holidazeGateWay.createVenue(
+
+    const response = await holidazeGateWay.updateVenue(
       data,
       sessionCookie?.accessToken,
       import.meta.env.API_KEY

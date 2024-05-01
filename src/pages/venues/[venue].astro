@@ -5,8 +5,13 @@ import { countryToAlpha2 } from "country-to-iso";
 import Ratings from "../../components/uiComponents/Ratings.svelte";
 import ModalForm from "../../components/uiComponents/modal/ModalForm.astro";
 import type { Venue } from "../../types/types";
+import DeleteVenue from "../../components/forms/DeleteVenue.svelte";
+import ModalBookings from "../../components/uiComponents/modal/ModalBookings.astro";
+import ModalUpdateVenue from "../../components/uiComponents/modal/ModalUpdateVenue.astro";
 
 const { venue } = Astro.params;
+const { user } = Astro.locals;
+
 const holidazeGateWay = new HolidazeGateWay();
 
 let data: Venue | null;
@@ -18,11 +23,22 @@ try {
   data = null;
 }
 const country = data ? countryToAlpha2(data?.location?.country) : "NO";
+console.log(data?.bookings);
 ---
 
 <Layout title="Venue">
   <section class="venue">
-    <ModalForm bookings={data?.bookings} max={data?.maxGuests} id={venue} />
+    {
+      user === data?.owner?.name ? (
+        <>
+          <ModalBookings bookings={data?.bookings} />
+          <ModalUpdateVenue existingVenueData={data} />
+        </>
+      ) : (
+        <ModalForm bookings={data?.bookings} max={data?.maxGuests} id={venue} />
+      )
+    }
+
     <figure class="venue__wrapper">
       <div class="venue__img-container">
         <img alt="" src={data?.media[0]?.url} />
@@ -36,6 +52,20 @@ const country = data ? countryToAlpha2(data?.location?.country) : "NO";
             )
           }
         </div>
+        {
+          user === data?.owner?.name ? (
+            <button id="modal7-trigger">UPDATGE VENYUE</button>
+          ) : (
+            ""
+          )
+        }
+        {
+          user === data?.owner?.name ? (
+            <DeleteVenue client:load venueId={data?.id} />
+          ) : (
+            ""
+          )
+        }
       </div>
 
       <article class="venue__body">
@@ -102,7 +132,17 @@ const country = data ? countryToAlpha2(data?.location?.country) : "NO";
           </div>
         </div>
         <div class="btn-container">
-          <button id="modal1-trigger">SEE AVAILABLE DATES</button>
+          <button
+            id={user === data?.owner?.name
+              ? "modal4-trigger"
+              : "modal1-trigger"}
+          >
+            {
+              user === data?.owner?.name
+                ? "SEE BOOKINGS"
+                : "SEE AVAILABLE DATES"
+            }
+          </button>
         </div>
       </div>
     </figure>
