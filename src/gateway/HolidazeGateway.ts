@@ -1,5 +1,5 @@
 
-import type { Venue, VenueData } from "../types/types";
+import type { VenueData } from "../types/types";
 
 class HolidazeGateWay {
   private static baseUrl = 'https://v2.api.noroff.dev';
@@ -26,16 +26,22 @@ class HolidazeGateWay {
       headers: HolidazeGateWay.headers(token, apiKey),
       body: body ? JSON.stringify(body) : null,
     });
-
+    if (method === "DELETE" && response.status === 204) {
+      return {
+        message: "success!",
+        success: true
+      }
+    }
     if (!response.ok) {
       const errorData = await response.json();
+      console.log(errorData)
       throw new Error(errorData?.errors[0]?.message ?? 'Unknown error');
     }
 
-    const data = await response.json();
 
+    const data = await response.json();
     return {
-      data: data.data,
+      data: data?.data,
       message: "success!",
       success: true
     }
@@ -77,13 +83,21 @@ class HolidazeGateWay {
 
   public async updateProfile(formData: FormData, name: string, token: string, apiKey: string): Promise<any> {
     const formJson = Object.fromEntries(formData.entries());
+
+
     const formattedJson = {
-      ...formJson,
       bio: formJson.bio || "Awesome customer",
-      avatar: formJson.avatar || 'https://i.stack.imgur.com/EzZiD.png',
-      banner: formJson.banner || 'https://i.stack.imgur.com/EzZiD.png',
+      avatar: {
+        url: formJson.avatar || 'https://i.stack.imgur.com/EzZiD.png',
+        alt: "profileImage"
+      },
+      banner: {
+        url: formJson.banner || 'https://i.stack.imgur.com/EzZiD.png',
+        alt: "bannerImage"
+      },
       venueManager: formJson.venueManager === 'on',
     };
+    console.log(formattedJson)
     return await HolidazeGateWay.httpRequest('PUT', `${HolidazeGateWay.profileUrl}/${name}?_bookings=true&_venues=true`, formattedJson, token, apiKey);
   }
 
@@ -106,9 +120,8 @@ class HolidazeGateWay {
     return await HolidazeGateWay.httpRequest('POST', `${HolidazeGateWay.baseUrl}/holidaze/venues`, formData, token, apiKey);
   }
   public async updateVenue(formData: FormData, token: string, apiKey: string): Promise<any> {
-    const id = formData
-
-    console.log(formData)
+     console.log(formData)
+    //const venue = Object.fromEntries(formData.entries());
     return await HolidazeGateWay.httpRequest('PUT', `${HolidazeGateWay.baseUrl}/holidaze/venues/${formData?.id}`, formData, token, apiKey);
   }
 

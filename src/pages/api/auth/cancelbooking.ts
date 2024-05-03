@@ -6,22 +6,36 @@ import { HolidazeGateWay } from "../../../gateway/HolidazeGateway";
 
 const holidazeGateWay = new HolidazeGateWay();
 
-export const POST: APIRoute = async ({ cookies, redirect, request }: APIContext): Promise<Response> => {
-    const sessionCookie = cookies.get("session")?.json();
+
+export const DELETE: APIRoute = async ({ locals, request }: APIContext): Promise<Response> => {
+    const { user, token } = locals;
+
 
     try {
         const data = await request.formData();
         const response = await holidazeGateWay.cancelBooking(data,
-            sessionCookie?.accessToken,
+            token,
             import.meta.env.API_KEY)
 
         if (response.success) {
+
+            const fetchedData = await holidazeGateWay.profile(
+                user,
+                token,
+                import.meta.env.API_KEY
+            );
+            const updatedData = fetchedData?.data?.bookings;
+
+
             return Response.json({
                 success: true,
                 message: response.message,
-                result: 'Booking canceled'
-            })
+                result: 'Booking canceled',
+                data: updatedData
+            });
         }
+
+
         return new Response(
             JSON.stringify({
                 message: response.message,
@@ -30,6 +44,7 @@ export const POST: APIRoute = async ({ cookies, redirect, request }: APIContext)
             { status: 200 }
         );
     } catch (err: any) {
+
         return new Response(
             JSON.stringify({
                 message: `${err}`,

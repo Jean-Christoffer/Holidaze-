@@ -117,6 +117,17 @@
       const data = await response.json();
       if (data.success) {
         handleProgress(1);
+
+        let url;
+        if (initialVenue) {
+          url = new URL(window.location.origin);
+        } else {
+          const venueId = data.result.id;
+
+          url = new URL(`${window.location.origin}/venues/${venueId}`);
+        }
+
+        window.location.href = url.toString();
       }
     } catch (err) {
       console.log(err);
@@ -126,7 +137,6 @@
   function handleProgress(stepIncrement: number) {
     const newActive = currentActive + stepIncrement;
     currentActive = Math.max(1, Math.min(steps.length, newActive));
-    console.log(currentActive);
   }
 </script>
 

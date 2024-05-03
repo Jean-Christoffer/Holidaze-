@@ -13,10 +13,6 @@
       name: "Venues",
       route: "/venues/",
     },
-    {
-      name: "Contact",
-      route: "/contact/",
-    },
   ];
 
   function handleActive() {

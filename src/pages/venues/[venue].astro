@@ -8,7 +8,7 @@ import type { Venue } from "../../types/types";
 import DeleteVenue from "../../components/forms/DeleteVenue.svelte";
 import ModalBookings from "../../components/uiComponents/modal/ModalBookings.astro";
 import ModalUpdateVenue from "../../components/uiComponents/modal/ModalUpdateVenue.astro";
-
+import { Image } from 'astro:assets';
 const { venue } = Astro.params;
 const { user } = Astro.locals;
 
@@ -23,7 +23,6 @@ try {
   data = null;
 }
 const country = data ? countryToAlpha2(data?.location?.country) : "NO";
-console.log(data?.bookings);
 ---
 
 <Layout title="Venue">
@@ -41,7 +40,7 @@ console.log(data?.bookings);
 
     <figure class="venue__wrapper">
       <div class="venue__img-container">
-        <img alt="" src={data?.media[0]?.url} />
+        <Image alt="" src={data?.media[0]?.url ?? ""} width={500} height={500} />
         <div class="venue__location">
           <p>{data?.location?.city}</p>
           {
@@ -98,11 +97,11 @@ console.log(data?.bookings);
         <div class="venue__amenities">
           <div class="venue__amenities__container">
             <div class="svg-container">
-              <img src="/svg/wifi.svg" alt="logo" />
+              <Image src="/svg/wifi.svg" alt="logo"  width={100} height={100}/>
               <p>{data?.meta?.wifi ? "WIFI included" : "Wifi not included"}</p>
             </div>
             <div class="svg-container">
-              <img src="/svg/parking.svg" alt="logo" />
+              <Image src="/svg/parking.svg" alt="logo" width={100} height={100}/>
               <p>
                 {
                   data?.meta?.parking
@@ -112,7 +111,7 @@ console.log(data?.bookings);
               </p>
             </div>
             <div class="svg-container">
-              <img src="/svg/food.svg" alt="logo" />
+              <Image src="/svg/food.svg" alt="logo"  width={100} height={100} />
               <p>
                 {
                   data?.meta?.breakfast
@@ -122,7 +121,7 @@ console.log(data?.bookings);
               </p>
             </div>
             <div class="svg-container">
-              <img src="/svg/pets.svg" alt="logo" />
+              <Image src="/svg/pets.svg" alt="logo"  width={100} height={100} />
               <p>
                 {
                   data?.meta?.pets
@@ -159,9 +158,11 @@ console.log(data?.bookings);
   .venue {
     max-width: 700px;
     margin: auto;
-  p,h2,.price{
-    color: black;
-  }
+    p,
+    h2,
+    .price {
+      color: black;
+    }
     &__wrapper {
       margin: 0px 0;
       background-color: white;
@@ -299,7 +300,6 @@ console.log(data?.bookings);
       border: 3px solid black;
       width: 50px;
       height: 50px;
-
 
       #modal7-trigger {
         display: block;

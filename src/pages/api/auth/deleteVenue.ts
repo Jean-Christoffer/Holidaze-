@@ -4,16 +4,16 @@ import { HolidazeGateWay } from "../../../gateway/HolidazeGateway";
 
 const holidazeGateWay = new HolidazeGateWay();
 
-export const POST: APIRoute = async ({ cookies, redirect, request }): Promise<Response> => {
+export const POST: APIRoute = async ({ locals, request }): Promise<Response> => {
 
-    const sessionCookie = cookies.get("session")?.json();
+    const { token } = locals;
 
     try {
         const data = await request.formData();
 
         const response = await holidazeGateWay.deleteVenue(
             data,
-            sessionCookie?.accessToken,
+            token,
             import.meta.env.API_KEY
         );
 

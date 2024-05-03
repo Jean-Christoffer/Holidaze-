@@ -1,20 +1,16 @@
 <script lang="ts">
-  import SnackBar from "../uiComponents/SnackBar.svelte";
+  import SnackBar from "../SnackBar.svelte";
 
   let bio = "";
   let avatar = "";
   let venueManager = false;
-  let banner = "";
 
   const urlPattern = /^(http|https):\/\/[^ "]+$/;
 
   let urlError = "";
-  let bannerError = "";
-  ("");
 
   $: {
     urlError = validateAvatar(avatar);
-    bannerError = validateAvatar(banner);
   }
 
   function validateAvatar(url: string) {
@@ -32,20 +28,19 @@
 
     try {
       const formData = new FormData(e.currentTarget as HTMLFormElement);
-      const response = await fetch("/api/auth/update", {
-        method: "POST",
+      const response = await fetch("/api/auth/updateProfile", {
+        method: "PUT",
         body: formData,
       });
       const data = await response.json();
+ 
       if (!data.success) {
         errorMessage = data.message;
         showSnackbar = true;
         bio = "";
         avatar = "";
-        banner = "";
         venueManager = false;
       }
-      window.location.href = "/profile";
     } catch (err) {
       console.log(err);
     }
@@ -64,13 +59,6 @@
       <input type="text" name="avatar" bind:value={avatar} class="form_style" />
       {#if urlError}
         <div class="error">{urlError}</div>
-      {/if}
-    </div>
-    <div class="form_group">
-      <label for="banner" class="sub_title">Banner</label>
-      <input type="text" name="banner" bind:value={banner} class="form_style" />
-      {#if bannerError}
-        <div class="error">{bannerError}</div>
       {/if}
     </div>
     <div class="form_group venueManager">

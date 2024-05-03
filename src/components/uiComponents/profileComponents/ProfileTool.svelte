@@ -1,31 +1,36 @@
 <script lang="ts">
   import Dropdown from "./Dropdown.svelte";
   import type { User } from "../../../types/types";
+
   export let data: User | null;
+  export let onClick:() => void;
+  $: userData = data;
 
   let showMenu = false;
   function toggleShowMenu() {
     showMenu = !showMenu;
   }
+
 </script>
 
 <figure class="profile">
   <button on:click={toggleShowMenu}>
-    <img alt="" src={data?.avatar?.url} />
+    <img alt="" src={userData?.avatar?.url} />
   </button>
   <div class="profile__info">
-    <p class="profile__name"><strong>{data?.name}</strong></p>
+    <p class="profile__name"><strong>{userData?.name}</strong></p>
     <p class="profile__status">
-      <em>{data?.venueManager ? "Venuemanager" : "Valued customer"}</em>
+      <em>{userData?.venueManager ? "Venuemanager" : "Valued customer"}</em>
     </p>
   </div>
 
   <Dropdown
     {showMenu}
-    isVenueManager={data?.venueManager}
-    name={data?.name}
+    isVenueManager={userData?.venueManager}
+    name={userData?.name}
     toggleMenu={toggleShowMenu}
-    avatar={data?.avatar?.url}
+    avatar={userData?.avatar?.url}
+    onClick={onClick}
   />
 </figure>
 

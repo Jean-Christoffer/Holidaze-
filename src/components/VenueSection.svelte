@@ -69,6 +69,8 @@
           <VenueCard data={venue} />
         </div>
       {/each}
+    {:else}
+      <p></p>
     {/if}
   </section>
 </div>

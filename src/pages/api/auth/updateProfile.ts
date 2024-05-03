@@ -6,24 +6,25 @@ import { HolidazeGateWay } from "../../../gateway/HolidazeGateway";
 
 const holidazeGateWay = new HolidazeGateWay();
 
-export const POST: APIRoute = async ({ cookies, redirect, request }: APIContext): Promise<Response> => {
+export const PUT: APIRoute = async ({ locals, request }: APIContext): Promise<Response> => {
 
-  const sessionCookie = cookies.get("session")?.json();
+  const { token, user } = locals
 
   try {
     const data = await request.formData();
     const response = await holidazeGateWay.updateProfile(
       data,
-      sessionCookie?.name,
-      sessionCookie?.accessToken,
+      user,
+      token,
       import.meta.env.API_KEY
     );
 
     if (response.success) {
+
       return Response.json({
         success: true,
         message: response.message,
-        result: 'Data from Astro Endpoint!'
+        result: response.data
       })
     }
     return new Response(

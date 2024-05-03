@@ -1,9 +1,9 @@
 ---
 import { HolidazeGateWay } from "../gateway/HolidazeGateway";
 import type { User } from "../types/types";
-import ProfieTool from "./uiComponents/profileComponents/ProfileTool.svelte";
-import ModalFormUpdate from "./uiComponents/modal/ModalFormUpdate.astro";
-import ModalFormVenue from "./uiComponents/modal/ModalFormVenue.astro"
+import ProfieTool from "./uiComponents/profileComponents/Profile.svelte";
+import ModalFormVenue from "./uiComponents/modal/ModalFormVenue.astro";
+
 const holidazeGateWay = new HolidazeGateWay();
 const { user, token } = Astro.locals;
 
@@ -22,6 +22,7 @@ try {
   data = null;
 }
 ---
+
 <ModalFormVenue />
-<ModalFormUpdate />
+
 <ProfieTool data={data} client:load />

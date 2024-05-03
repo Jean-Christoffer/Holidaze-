@@ -2,6 +2,8 @@
   import type { Booking } from "../../../types/types";
 
   export let data: Array<Booking> = [];
+  $: bookingData = data;
+
   import { format } from "date-fns";
 
   async function submit(e: SubmitEvent) {
@@ -9,18 +11,25 @@
     try {
       const formData = new FormData(e.currentTarget as HTMLFormElement);
       const response = await fetch("/api/auth/cancelbooking", {
-        method: "POST",
+        method: "DELETE",
         body: formData,
       });
-      const data = await response.json();
-      return (window.location.href = "/bookings");
+      const responseData = await response.json();
+      if (responseData.success) {
+        bookingData = responseData.data;
+      }
     } catch (err) {
       console.log(err);
     }
   }
 </script>
 
-{#each data as booking}
+{#if bookingData.length > 0}
+  <h1>Bookings & Trips</h1>
+{:else}
+  <h1>No bookings yet</h1>
+{/if}
+{#each bookingData as booking}
   <div class="container">
     <div class="container__title">
       <h2>{booking?.venue?.location?.city ?? "Mystery town"}</h2>
@@ -50,6 +59,13 @@
 {/each}
 
 <style lang="scss">
+  h1 {
+    font-size: 100px;
+    text-align: center;
+    @media (max-width: 1100px) {
+      font-size: 40px;
+    }
+  }
   .container {
     margin-bottom: 32px;
     .cancel {

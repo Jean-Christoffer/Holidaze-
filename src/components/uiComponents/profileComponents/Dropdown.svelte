@@ -1,4 +1,5 @@
 <script lang="ts">
+  export let onClick: () => void;
   export let isVenueManager = false;
   export let showMenu = false;
   export let name = "";
@@ -26,7 +27,7 @@
     <li><button id="modal3-trigger">Create venue</button></li>
     <li><a href="/venueBookings">Manage venues</a></li>
   {/if}
-  <li><button id="modal2-trigger">Edit profile</button></li>
+  <li><button on:click={onClick}>Edit profile</button></li>
   <li class="li-form">
     <form action="/logout" method="POST">
       <button type="submit">Logout</button>

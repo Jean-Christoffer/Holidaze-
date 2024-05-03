@@ -1,5 +1,4 @@
 <script lang="ts">
-  //TODO: Everything works but its rushed, verbose and hard to read.. Refactoring is needed here.
   import {
     startOfMonth,
     endOfMonth,
@@ -16,6 +15,8 @@
   export let bookings: Booking[];
   export let max: number = 0;
   export let id: string = "";
+
+  $: bookingData = bookings;
 
   let bookedDates: string | string[];
   let currentDate = new Date();
@@ -35,7 +36,7 @@
     : undefined;
   $: endDateFormatted = endDate ? format(endDate, "yyyy-MM-dd") : undefined;
 
-  $: bookedDates = bookings.flatMap((d) => {
+  $: bookedDates = bookingData.flatMap((d) => {
     const start = new Date(d.dateFrom);
     const end = new Date(d.dateTo);
     let days = [];
@@ -103,10 +104,10 @@
       const data = await response.json();
       if (data.success) {
         success = true;
-
+        bookingData = data.data;
         setTimeout(() => {
-          window.location.href = `${id}`;
-        }, 2000);
+          success = false;
+        }, 1000);
       }
     } catch (err) {
       console.log(err);

@@ -25,16 +25,7 @@ try {
 
 <Layout title="bookings">
   <section>
-    {
-      data.length > 0 ? (
-        <>
-          <h1>Bookings & Trips</h1>
-          <BookingCard data={data} client:load />
-        </>
-      ) : (
-        <h1>No bookings yet</h1>
-      )
-    }
+    <BookingCard data={data} client:load />
   </section>
 </Layout>
 
@@ -44,12 +35,5 @@ try {
     width: 100%;
     margin: 20px auto;
     padding: 16px;
-    h1 {
-      font-size: 100px;
-      text-align: center;
-      @media (max-width: 1100px) {
-        font-size: 40px;
-      }
-    }
   }
 </style>

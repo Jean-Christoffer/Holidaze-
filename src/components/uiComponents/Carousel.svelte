@@ -101,12 +101,14 @@
     initMarquee("1", 10, -1);
     initMarquee("2", 10, -1);
     initMarquee("3", 55, -1);
-    window.addEventListener(
-      "resize",
-      _.debounce(() => {
-        marquees.forEach((instance) => playMarquee(instance));
-      }, 500)
-    );
+    if (window !== undefined) {
+      window.addEventListener(
+        "resize",
+        _.debounce(() => {
+          marquees.forEach((instance) => playMarquee(instance));
+        }, 500)
+      );
+    }
   });
 
   onDestroy(() => {
@@ -115,9 +117,11 @@
         instance.tween.kill();
       }
     });
-    window.removeEventListener("resize", () => {
-      marquees.forEach((instance) => playMarquee(instance));
-    });
+    if (window !== undefined) {
+      window.removeEventListener("resize", () => {
+        marquees.forEach((instance) => playMarquee(instance));
+      });
+    }
   });
 </script>
 
