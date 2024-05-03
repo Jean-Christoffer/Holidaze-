@@ -43,23 +43,51 @@
 
     return venues;
   }
+
+  $: showSortMenu = false;
+  function toggleMenu() {
+    showSortMenu = !showSortMenu;
+  }
 </script>
 
 <div class="section">
   <div class="tool-bar">
     <figure class="tool-bar__wrapper">
       <div>
-        <button on:click={handleSortPrice} disabled={false}
-          >PRICE {isSortedDescending ? "Descending" : "Ascending"}</button
-        >
+        <div class="btn-container">
+          <button on:click={toggleMenu} disabled={false} class="btn"
+            ><span>SORTING OPTIONS</span>
+
+            <img
+              class={showSortMenu ? "active" : ""}
+              src="https://tonyschocolonely.tinloof.com/images/arrow-down.svg"
+              alt="Down"
+              width="41"
+              height="40"
+            />
+          </button>
+        </div>
       </div>
-      <div>
-        <button on:click={handleSortDate} disabled={false}
-          >CREATED {isSortedByDateDescending
-            ? "Descending"
-            : "Ascending"}</button
-        >
-      </div>
+      {#if showSortMenu}
+        <div class="sorting-container">
+          <div class="sorting-options">
+            <button
+              class="sorting-button inverse"
+              aria-label="price ascending"
+              on:click={handleSortPrice}
+            >
+              <span>Price ascending</span>
+            </button>
+            <button
+              class="sorting-button"
+              aria-label="price descending"
+              on:click={handleSortDate}
+            >
+              <span>Date descending</span>
+            </button>
+          </div>
+        </div>
+      {/if}
     </figure>
   </div>
   <section>
@@ -76,9 +104,6 @@
 </div>
 
 <style lang="scss">
-  ul {
-    list-style: none;
-  }
   .section {
     max-width: 1000px;
     margin: 0 auto 50px auto;
@@ -95,28 +120,75 @@
       padding: 16px;
       gap: 8px;
       flex-wrap: wrap;
+      position: relative;
     }
     button {
-      text-transform: uppercase;
-      padding: 8px;
-      font-weight: bold;
-      background-color: #f2d027;
-      width: 180px;
-      text-align: center;
+      width: 300px;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      margin: 0 auto;
+      gap: 8px;
+      font-size: 20px;
+      background: #f2d027;
+      border-radius: 30px;
       border-color: black;
+      font-weight: 800;
+      box-shadow: 5px 5px 0px 0px var(--form-border-color);
+      img {
+        transform: rotate(0deg);
+        transition: 0.3s ease-in-out;
+        &.active {
+          transform: rotate(180deg);
+          transition: 0.3s ease-in-out;
+        }
+      }
+      @media(max-width:450px){
+        width: auto;
+    }
     }
   }
-  section,
-  ul {
+  section {
     display: flex;
     gap: 16px;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     max-width: 1000px;
     margin: 0 auto;
     padding: 16px;
     flex-wrap: wrap;
     align-content: stretch;
     align-items: stretch;
+  }
+  .sorting-container {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: calc(100% + 20px);
+    gap: 10px;
+    border: 3px solid black;
+    background-color: #85c4e6;
+    color: black;
+    z-index: 30;
+    border-radius: 4px;
+    padding: 16px;
+    @media (min-width: 1024px) {
+      top: calc(100% + 20px);
+      padding: 16px;
+      border-radius: 4px;
+    }
+    .sorting-button {
+      justify-content: center;
+    }
+    .sorting-options {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      width: 100%;
+      justify-content: center;
+    }
   }
 </style>

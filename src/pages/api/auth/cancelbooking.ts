@@ -10,7 +10,6 @@ const holidazeGateWay = new HolidazeGateWay();
 export const DELETE: APIRoute = async ({ locals, request }: APIContext): Promise<Response> => {
     const { user, token } = locals;
 
-
     try {
         const data = await request.formData();
         const response = await holidazeGateWay.cancelBooking(data,
@@ -26,7 +25,6 @@ export const DELETE: APIRoute = async ({ locals, request }: APIContext): Promise
             );
             const updatedData = fetchedData?.data?.bookings;
 
-
             return Response.json({
                 success: true,
                 message: response.message,
@@ -34,7 +32,6 @@ export const DELETE: APIRoute = async ({ locals, request }: APIContext): Promise
                 data: updatedData
             });
         }
-
 
         return new Response(
             JSON.stringify({

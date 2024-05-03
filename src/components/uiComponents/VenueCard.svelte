@@ -41,6 +41,10 @@
     align-items: center;
     background-color: #85c4e6;
     height: 100%;
+    @media (max-width: 450px) {
+      width: calc(100vw - 30px);
+      max-width: none;
+    }
     &__body {
       margin-top: auto;
       text-align: center;

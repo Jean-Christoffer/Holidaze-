@@ -163,6 +163,7 @@
         <div class="form_group">
           <label for="description" class="sub_title">Description</label>
           <textarea
+          rows="4" cols="50"
             class="form_style"
             bind:value={venue.description}
             placeholder="Description"

@@ -6,31 +6,34 @@
 </script>
 
 <div class="container">
-{#if data.length > 0}
-  {#each data as booking}
-    <figure class="container__body">
-      <div class="container__body-wrapper">
-        <div class="img-container">
-          <img alt="" src={booking?.customer?.avatar?.url} />
+  {#if data.length > 0}
+    {#each data as booking}
+      <figure class="container__body">
+        <div class="container__body-wrapper">
+          <div class="img-container">
+            <img alt="" src={booking?.customer?.avatar?.url} />
+          </div>
+          <div>
+            <h3>{booking?.customer?.name}</h3>
+            <p class="date">
+              {format(new Date(booking?.dateFrom), "dd LLL yyyy")} - {format(
+                new Date(booking?.dateTo),
+                "dd LLL yyyy"
+              )}
+            </p>
+          </div>
         </div>
-        <div>
-          <h3>{booking?.customer?.name}</h3>
-          <p>
-            {format(new Date(booking?.dateFrom), "dd LLL yyyy")} - {format(
-              new Date(booking?.dateTo),
-              "dd LLL yyyy"
-            )}
-          </p>
-        </div>
-      </div>
-    </figure>
-  {/each}
+      </figure>
+    {/each}
   {:else}
-  <p>No bookings yet</p>
+    <p>No bookings yet</p>
   {/if}
 </div>
 
 <style lang="scss">
+  .date {
+    color: black;
+  }
   .container {
     overflow-y: auto;
     max-height: 500px;

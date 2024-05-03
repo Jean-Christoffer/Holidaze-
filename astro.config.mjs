@@ -12,11 +12,5 @@ export default defineConfig({
       exclude: ["oslo"]
     }
   },
-  redirects: {
-    '/old-page': {
-      status: 302,
-      destination: '/new-page'
-    }
-  },
   adapter: vercel()
 });

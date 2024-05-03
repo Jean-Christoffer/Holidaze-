@@ -6,6 +6,7 @@ export const onRequest = defineMiddleware(({ locals, cookies }, next) => {
 
     locals.user = sessionCookie?.name
     locals.token = sessionCookie?.accessToken
+    locals.venueManager = sessionCookie?.isVenueManager
 
     return next();
 });

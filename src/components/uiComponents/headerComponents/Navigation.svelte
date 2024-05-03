@@ -127,6 +127,11 @@
     font-weight: bold;
     font-size: 24px;
     position: relative;
+    margin-right: 20px;
+    @media (max-width: 1100px) {
+    
+      margin-right: 0;
+  }
 
     &__ul {
       display: flex;
@@ -151,10 +156,11 @@
     .search-btn {
       font-size: 24px;
       margin: 0px 5px 5px 16px;
-      svg path{
+      svg path {
         fill: var(--text-color);
       }
-      @media (max-width: 750px) {
+      @media (max-width: 1100px) {
+    
         &.search-desktop {
           display: none;
         }
@@ -164,11 +170,11 @@
         }
       }
     }
-    @media (max-width: 750px) {
+    @media (max-width: 1100px) {
       &__ul {
         flex-direction: column;
         position: fixed;
-        background-color: #f2d027;
+        background-color: var(--search-background-color);
         align-items: start;
         justify-content: top;
         right: 0;
@@ -180,7 +186,7 @@
         gap: 2rem;
         transform: translateX(100%);
         transition: 0.4s ease-in-out;
-        border-left: 3px solid black;
+        border-left: 3px solid var(--search-border-color);
         box-shadow: 4px 4px 0px black;
         &.nav-active {
           transform: translateX(0%);
@@ -191,7 +197,7 @@
   .line {
     width: 23px;
     height: 3px;
-    background: #202020;
+    background: var(--text-color);
     display: block;
     margin: 5px 0;
     position: relative;
@@ -220,10 +226,7 @@
   .hamburger.nav-active .middle {
     opacity: 0;
   }
-  .hamburger.nav-active .line {
-    background: #590202;
-  }
-  @media (min-width: 751px) {
+  @media (min-width: 1100px) {
     .hamburger-container {
       display: none;
     }

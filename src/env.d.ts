@@ -2,7 +2,8 @@
 declare namespace App {
     interface Locals {
         user: string;
-        token:string;
+        token: string;
+        venueManager: boolean;
 
     }
 }

@@ -1,5 +1,5 @@
 ---
-import Footer from "../components/Footer.svelte";
+import Footer from "../components/Footer.astro";
 import { ViewTransitions, fade } from "astro:transitions";
 import Navigation from "../components/uiComponents/headerComponents/Navigation.svelte";
 import Profile from "../components/profile.astro";
@@ -16,10 +16,9 @@ const { title } = Astro.props;
 <html lang="en">
   <head>
     <script>
-
       const themeToggles = document.querySelectorAll("[data-theme-toggle]");
       const getTheme = () => localStorage.getItem("theme") || "light";
-      const setTheme = (theme:string) =>
+      const setTheme = (theme: string) =>
         document.documentElement.setAttribute("data-theme", theme);
 
       window.addEventListener("DOMContentLoaded", () => setTheme(getTheme()));
@@ -41,17 +40,16 @@ const { title } = Astro.props;
     <title>{title}</title>
     <ViewTransitions />
   </head>
-  <body transition:animate="slide">
-    <script is:inline>
+  <body>
+    <script is:inline defer>
       const theme = localStorage.getItem("theme") || "light";
       document.documentElement.dataset.theme = theme;
     </script>
     <header>
-      
       <button data-theme-toggle transition:persist class="darkmode-button"
       ></button>
 
-      <a href="/" class="logo"><img src="/logo.svg" alt="" /></a>
+      <a href="/" class="logo">Holidaze</a>
       <div class="nav-profile">
         <Navigation user={user ?? ""} client:load />
         {user ? <Profile /> : ""}
@@ -63,7 +61,6 @@ const { title } = Astro.props;
       .darkmode-button {
         background-color: var(--button-darkmode-bg);
       }
-      
     </style>
   </body>
 </html>

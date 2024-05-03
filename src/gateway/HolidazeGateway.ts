@@ -97,7 +97,7 @@ class HolidazeGateWay {
       },
       venueManager: formJson.venueManager === 'on',
     };
-    console.log(formattedJson)
+
     return await HolidazeGateWay.httpRequest('PUT', `${HolidazeGateWay.profileUrl}/${name}?_bookings=true&_venues=true`, formattedJson, token, apiKey);
   }
 
@@ -120,7 +120,7 @@ class HolidazeGateWay {
     return await HolidazeGateWay.httpRequest('POST', `${HolidazeGateWay.baseUrl}/holidaze/venues`, formData, token, apiKey);
   }
   public async updateVenue(formData: FormData, token: string, apiKey: string): Promise<any> {
-     console.log(formData)
+
     //const venue = Object.fromEntries(formData.entries());
     return await HolidazeGateWay.httpRequest('PUT', `${HolidazeGateWay.baseUrl}/holidaze/venues/${formData?.id}`, formData, token, apiKey);
   }

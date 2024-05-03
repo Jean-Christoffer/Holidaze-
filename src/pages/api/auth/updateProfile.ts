@@ -6,9 +6,10 @@ import { HolidazeGateWay } from "../../../gateway/HolidazeGateway";
 
 const holidazeGateWay = new HolidazeGateWay();
 
-export const PUT: APIRoute = async ({ locals, request }: APIContext): Promise<Response> => {
+export const PUT: APIRoute = async ({ locals, request, cookies }: APIContext): Promise<Response> => {
 
   const { token, user } = locals
+  const sessionCookie = cookies.get("session")?.json();
 
   try {
     const data = await request.formData();
@@ -20,6 +21,8 @@ export const PUT: APIRoute = async ({ locals, request }: APIContext): Promise<Re
     );
 
     if (response.success) {
+      const isVenueManager = response?.data?.venueManager
+      sessionCookie.isVenueManager = isVenueManager;
 
       return Response.json({
         success: true,

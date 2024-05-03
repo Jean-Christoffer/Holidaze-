@@ -107,5 +107,13 @@ export interface Booking {
   created: string;
   updated: string;
   venue: Venue;
+  customer:Customer;
+}
+interface Customer{
+  name:string;
+  avatar:{
+    url:string;
+    alt:string;
+  }
 }
 

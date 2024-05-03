@@ -3,20 +3,31 @@ import { HolidazeGateWay } from "../../../gateway/HolidazeGateway";
 
 const holidazeGateWay = new HolidazeGateWay();
 
-export const POST: APIRoute = async ({ cookies, redirect, request }) => {
+export const POST: APIRoute = async ({ cookies, request }) => {
 
   try {
     const data = await request.formData();
     const response = await holidazeGateWay.login(data)
-    const accessToken = response?.data?.accessToken;
-    const name = response?.data?.name;
 
-    cookies.set('session', JSON.stringify({ accessToken, name }), {
-      path: '/',
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 60 * 60 * 24 * 7
-    });
+    if (response.success) {
+      const accessToken = response?.data?.accessToken;
+      const name = response?.data?.name;
+
+      const fetchedData = await holidazeGateWay.profile(
+        name,
+        accessToken,
+        import.meta.env.API_KEY
+      );
+      const isVenueManager = fetchedData?.data?.venueManager
+      cookies.set('session', JSON.stringify({ accessToken, name, isVenueManager }), {
+        path: '/',
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 60 * 60 * 24 * 7
+      });
+
+    }
+
 
     return new Response(
       JSON.stringify({

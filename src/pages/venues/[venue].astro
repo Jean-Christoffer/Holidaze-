@@ -8,7 +8,7 @@ import type { Venue } from "../../types/types";
 import DeleteVenue from "../../components/forms/DeleteVenue.svelte";
 import ModalBookings from "../../components/uiComponents/modal/ModalBookings.astro";
 import ModalUpdateVenue from "../../components/uiComponents/modal/ModalUpdateVenue.astro";
-import { Image } from 'astro:assets';
+import { Image } from "astro:assets";
 const { venue } = Astro.params;
 const { user } = Astro.locals;
 
@@ -40,7 +40,12 @@ const country = data ? countryToAlpha2(data?.location?.country) : "NO";
 
     <figure class="venue__wrapper">
       <div class="venue__img-container">
-        <Image alt="" src={data?.media[0]?.url ?? ""} width={500} height={500} />
+        <Image
+          alt=""
+          src={data?.media[0]?.url ?? ""}
+          width={500}
+          height={500}
+        />
         <div class="venue__location">
           <p>{data?.location?.city}</p>
           {
@@ -97,11 +102,16 @@ const country = data ? countryToAlpha2(data?.location?.country) : "NO";
         <div class="venue__amenities">
           <div class="venue__amenities__container">
             <div class="svg-container">
-              <Image src="/svg/wifi.svg" alt="logo"  width={100} height={100}/>
+              <Image src="/svg/wifi.svg" alt="logo" width={100} height={100} />
               <p>{data?.meta?.wifi ? "WIFI included" : "Wifi not included"}</p>
             </div>
             <div class="svg-container">
-              <Image src="/svg/parking.svg" alt="logo" width={100} height={100}/>
+              <Image
+                src="/svg/parking.svg"
+                alt="logo"
+                width={100}
+                height={100}
+              />
               <p>
                 {
                   data?.meta?.parking
@@ -111,7 +121,7 @@ const country = data ? countryToAlpha2(data?.location?.country) : "NO";
               </p>
             </div>
             <div class="svg-container">
-              <Image src="/svg/food.svg" alt="logo"  width={100} height={100} />
+              <Image src="/svg/food.svg" alt="logo" width={100} height={100} />
               <p>
                 {
                   data?.meta?.breakfast
@@ -121,7 +131,7 @@ const country = data ? countryToAlpha2(data?.location?.country) : "NO";
               </p>
             </div>
             <div class="svg-container">
-              <Image src="/svg/pets.svg" alt="logo"  width={100} height={100} />
+              <Image src="/svg/pets.svg" alt="logo" width={100} height={100} />
               <p>
                 {
                   data?.meta?.pets
@@ -133,6 +143,7 @@ const country = data ? countryToAlpha2(data?.location?.country) : "NO";
           </div>
         </div>
         <div class="btn-container">
+      
           <button
             id={user === data?.owner?.name
               ? "modal4-trigger"
@@ -157,7 +168,9 @@ const country = data ? countryToAlpha2(data?.location?.country) : "NO";
   }
   .venue {
     max-width: 700px;
+    width: 100%;
     margin: auto;
+   
     p,
     h2,
     .price {
@@ -167,13 +180,18 @@ const country = data ? countryToAlpha2(data?.location?.country) : "NO";
       margin: 0px 0;
       background-color: white;
       border: 0px;
+      width: 100%;
+      max-width: 700px;
       @media (min-width: 1100px) {
         border: 3px solid black;
         margin: 20px auto;
       }
     }
     &__img-container {
-      max-width: 100%;
+      width: 100%;  // This ensures the container will take the full width of its parent
+  max-width: 700px;
+      height: 390px;
+    
       position: relative;
       border-bottom: 3px solid black;
       img {

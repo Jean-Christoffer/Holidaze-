@@ -6,9 +6,8 @@ import VenueSection from "../components/VenueSection.svelte";
 import type { Venue } from "../types/types";
 
 const holidazeGateWay = new HolidazeGateWay();
-const { user, token } = Astro.locals;
-
-if (!user || !token) return;
+const { user, token,venueManager } = Astro.locals;
+if (!user || !token || !venueManager) return Astro.redirect("/")
 
 let data: Venue[];
 try {
@@ -28,7 +27,7 @@ try {
   <section>
     <h1>Your venues</h1>
     <div class="venues">
-        <VenueSection data={data} client:load/>
+      <VenueSection data={data} client:load />
     </div>
   </section>
 </Layout>
@@ -42,5 +41,4 @@ try {
       }
     }
   }
-
 </style>

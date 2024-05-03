@@ -36,6 +36,10 @@
 </ul>
 
 <style lang="scss">
+  .name,
+  .status {
+    color: black;
+  }
   .settings {
     padding: 16px;
     border-radius: 8px;
@@ -80,7 +84,7 @@
 
     a {
       text-decoration: none;
-      color:black;
+      color: black;
       font-weight: bold;
     }
 
@@ -90,14 +94,14 @@
       border: none;
       outline: none;
       font-family: "Courier Prime", monospace;
-      color:black;
+      color: black;
       font-weight: bold;
     }
   }
   .mobile-menu {
     display: none !important;
     text-decoration: none;
-    color: var(--text-color);
+    color: black;
     font-weight: bold;
     display: flex;
     flex-direction: column;

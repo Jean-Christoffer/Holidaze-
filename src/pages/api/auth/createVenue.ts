@@ -6,7 +6,7 @@ const holidazeGateWay = new HolidazeGateWay();
 
 export const POST: APIRoute = async ({ locals, request }): Promise<Response> => {
 
-  const {token} = locals;
+  const { token } = locals;
 
   try {
     const data = await request.json();
