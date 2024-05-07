@@ -2,7 +2,7 @@
   export let steps = [];
   export let currentActive = 1;
 
-  $: progressWidth = ((currentActive - 1) / (steps.length - 1)) * 100 + "%";
+  $: progressWidth = ((currentActive - 1) / (steps.length - 1)) * 95 + "%";
 </script>
 
 <div class="progress-container">
@@ -40,12 +40,12 @@
     left: 0;
     transform: translateY(-50%);
     height: 4px;
-    width: 100%;
+    width: 95%;
     z-index: 0;
   }
 
   .progress {
-    background-color:#85c4e6;
+    background-color: #85c4e6;
     position: absolute;
     top: 50%;
     left: 0;

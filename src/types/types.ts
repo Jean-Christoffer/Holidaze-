@@ -74,6 +74,13 @@ export type Meta = {
   breakfast: boolean;
   pets: boolean;
 };
+export interface DayInfo {
+  date: Date;
+  formatted: string;
+  isSelected: boolean | undefined;
+  isInRange: boolean | undefined;
+  isDisabled: boolean;
+}
 export type Location = {
   address: string;
   city: string;
@@ -107,13 +114,13 @@ export interface Booking {
   created: string;
   updated: string;
   venue: Venue;
-  customer:Customer;
+  customer: Customer;
 }
-interface Customer{
-  name:string;
-  avatar:{
-    url:string;
-    alt:string;
+interface Customer {
+  name: string;
+  avatar: {
+    url: string;
+    alt: string;
   }
 }
 

@@ -235,7 +235,7 @@ h4 {
       outline: none;
       border: 2px solid #000;
       box-shadow: 3px 4px 0px 1px var(--form-border-color);
-      width: 290px;
+      width: 100%;
       padding: 12px 10px;
       border-radius: 4px;
       font-size: 15px;
@@ -261,6 +261,9 @@ h4 {
         border-color: black;
         font-weight: 800;
         box-shadow: 5px 5px 0px 0px var(--form-border-color);
+      }
+      .btn:disabled {
+        cursor: not-allowed !important;
       }
 
       p {
@@ -291,15 +294,19 @@ h4 {
   width: 100%;
   position: relative;
   padding: 16px !important;
-  overflow: hidden !important;
+  overflow-x: hidden !important;
+  overflow-y: auto;
+  @media (max-width: 1100px) {
+    border-left: none;
+    border-right: none;
+  }
   &::after {
     content: url("/svg/palm.svg");
     position: absolute;
     bottom: -10px;
     left: -10px;
     @media (max-width: 1100px) {
-      top: -7px;
-      left: -24px;
+      display: none;
     }
   }
   &::before {
@@ -312,13 +319,24 @@ h4 {
 .modal__content {
   justify-content: center;
   align-items: center !important;
-  padding: 16px !important;
+  padding: 0 !important;
 }
 .modal__inner {
-  padding: 16px !important;
+  padding: 0 !important;
 }
 .modal__close {
-  display: none;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 50px;
+  button {
+    background-color: transparent !important;
+    color: transparent !important;
+    position: absolute;
+  }
+  &::after {
+    content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="black" d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m-3.4 14L12 13.4L8.4 17L7 15.6l3.6-3.6L7 8.4L8.4 7l3.6 3.6L15.6 7L17 8.4L13.4 12l3.6 3.6z" /></svg>');
+  }
 }
 
 *::-webkit-scrollbar {

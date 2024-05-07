@@ -1,5 +1,5 @@
 
-import type { VenueData } from "../types/types";
+import type { VenueData, Venue } from "../types/types";
 
 class HolidazeGateWay {
   private static baseUrl = 'https://v2.api.noroff.dev';
@@ -34,11 +34,8 @@ class HolidazeGateWay {
     }
     if (!response.ok) {
       const errorData = await response.json();
-      console.log(errorData)
       throw new Error(errorData?.errors[0]?.message ?? 'Unknown error');
     }
-
-
     const data = await response.json();
     return {
       data: data?.data,
@@ -66,7 +63,15 @@ class HolidazeGateWay {
     const formJson = Object.fromEntries(formData.entries());
     const formattedJson = {
       ...formJson,
-      avatar: formJson.avatar || 'https://i.stack.imgur.com/EzZiD.png',
+      bio: formJson.bio || "Awesome customer",
+      avatar: {
+        url: formJson.avatar || 'https://i.stack.imgur.com/EzZiD.png',
+        alt: "profileImage"
+      },
+      banner: {
+        url: formJson.banner || 'https://i.stack.imgur.com/EzZiD.png',
+        alt: "bannerImage"
+      },
       venueManager: formJson.venueManager === 'on',
     };
     return await HolidazeGateWay.httpRequest('POST', `${HolidazeGateWay.authUrl}/register`, formattedJson);
@@ -119,9 +124,7 @@ class HolidazeGateWay {
   public async createVenue(formData: FormData, token: string, apiKey: string): Promise<any> {
     return await HolidazeGateWay.httpRequest('POST', `${HolidazeGateWay.baseUrl}/holidaze/venues`, formData, token, apiKey);
   }
-  public async updateVenue(formData: FormData, token: string, apiKey: string): Promise<any> {
-
-    //const venue = Object.fromEntries(formData.entries());
+  public async updateVenue(formData: Venue, token: string, apiKey: string): Promise<any> {
     return await HolidazeGateWay.httpRequest('PUT', `${HolidazeGateWay.baseUrl}/holidaze/venues/${formData?.id}`, formData, token, apiKey);
   }
 

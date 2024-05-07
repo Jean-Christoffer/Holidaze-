@@ -1,6 +1,6 @@
 <script lang="ts">
   import SnackBar from "../uiComponents/SnackBar.svelte";
-  
+
   let password = "";
   let email = "";
 
@@ -8,11 +8,13 @@
 
   let emailError = "";
   let passwordError = "";
-  ("");
+
+  let isDisabled: boolean = true;
 
   $: {
     emailError = validateEmail(email);
     passwordError = validatePassword(password);
+    isDisabled = Boolean(emailError || passwordError);
   }
 
   function validateEmail(email: string) {
@@ -86,7 +88,7 @@
       {/if}
     </div>
     <div class="btn-container">
-      <button class="btn">SIGN IN!</button>
+      <button class="btn" disabled={isDisabled}>SIGN IN!</button>
       <p>
         Dont have an Account? <a href="/register/" class="link"
           >Register Here!</a

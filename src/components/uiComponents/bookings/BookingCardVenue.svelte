@@ -54,12 +54,13 @@
       }
     }
     .img-container {
-      width: 80px;
-      height: 80px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
       overflow: hidden;
       border: 3px solid black;
       box-shadow: var(--figure-border-shadow);
+      flex-shrink: 0;
       img {
         display: block;
         width: 100%;

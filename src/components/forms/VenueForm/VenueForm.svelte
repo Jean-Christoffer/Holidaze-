@@ -47,6 +47,7 @@
   let nameError = "";
   let isDisabled: boolean = true;
   let steps = ["Step 1", "Step 2", "Step 3", "Step 4"];
+
   $: {
     nameError = validateName(venue.name);
     urlError = validateUrl(venue.media[0].url);
@@ -116,18 +117,14 @@
       );
       const data = await response.json();
       if (data.success) {
+        if (currentStep < 4) currentStep += 1;
         handleProgress(1);
-
+        const venueId = data.result.id;
         let url;
-        if (initialVenue) {
-          url = new URL(window.location.origin);
-        } else {
-          const venueId = data.result.id;
-
-          url = new URL(`${window.location.origin}/venues/${venueId}`);
-        }
-
-        window.location.href = url.toString();
+        url = new URL(`${window.location.origin}/venues/${venueId}`);
+        setTimeout(() => {
+          window.location.href = url.toString();
+        }, 2500);
       }
     } catch (err) {
       console.log(err);
@@ -163,7 +160,8 @@
         <div class="form_group">
           <label for="description" class="sub_title">Description</label>
           <textarea
-          rows="4" cols="50"
+            rows="4"
+            cols="50"
             class="form_style"
             bind:value={venue.description}
             placeholder="Description"
@@ -215,8 +213,12 @@
       </div>
     {/if}
 
-    {#if currentStep === 4}
-      <div>SUCCESSSSS</div>
+    {#if currentStep > 3}
+      {#if initialVenue}
+        <div><p>Success! Venue is changed</p></div>
+      {:else}
+        <div><p>Success! Venue created!</p></div>
+      {/if}
     {/if}
 
     <div class="btn-container">

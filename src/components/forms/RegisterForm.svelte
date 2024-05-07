@@ -17,11 +17,14 @@
   let passwordError = "";
   let urlError = "";
 
+  let isDisabled: boolean = true;
+
   $: {
     nameError = validateName(name);
     emailError = validateEmail(email);
     passwordError = validatePassword(password);
     urlError = validateAvatar(avatar);
+    isDisabled = Boolean(nameError || emailError || passwordError);
   }
 
   function validateName(name: string) {
@@ -57,7 +60,7 @@
 
   let responseMessage = "";
   let success: boolean;
-  let showSnackbar: boolean;
+  let showSnackbar: boolean = false;
 
   async function submit(e: SubmitEvent) {
     e.preventDefault();
@@ -85,7 +88,10 @@
       if (data.success) {
         success = true;
         showSnackbar = true;
-        responseMessage = data.message;
+        responseMessage = "account created! logging you inn";
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 2500);
       }
     } catch (err) {
       console.log(err);
@@ -159,20 +165,19 @@
       />
     </div>
     <div class="btn-container">
-      <button class="btn">SIGN UP!</button>
+      <button class="btn" disabled={isDisabled}>SIGN UP!</button>
       <p>
         Already have an Account? <a href="/login/" class="link">Sign in here!</a
         >
       </p>
     </div>
   </form>
-  {#if showSnackbar}
-    <SnackBar message={responseMessage} show={true} isSuccess={success} />
-  {/if}
+  <SnackBar message={responseMessage} show={showSnackbar} isSuccess={success} />
 </div>
 
 <style lang="scss">
   .form_area {
+    position: relative;
     .form_group {
       margin: 5px 20px;
       &.venueManager {

@@ -2,9 +2,15 @@
 import { Modal } from "accessible-astro-components";
 import BookinForm from "../../forms/BookinForm.svelte";
 
-const { bookings, max, id } = Astro.props;
+const { bookings, max, id, price } = Astro.props;
 ---
 
 <Modal triggerId="modal1-trigger" title="">
-  <BookinForm client:load bookings={bookings ?? []} max={max} id={id} />
+  <BookinForm
+    client:load
+    bookings={bookings ?? []}
+    max={max}
+    id={id}
+    price={price}
+  />
 </Modal>

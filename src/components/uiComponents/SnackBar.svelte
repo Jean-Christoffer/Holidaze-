@@ -2,11 +2,12 @@
   export let message = "";
   export let show: boolean = false;
   export let isSuccess: boolean = true;
+
   $: {
-    if ((show = true)) {
+    if (show) {
       setTimeout(() => {
-        return (show = false);
-      }, 3500);
+        return (show = !show);
+      }, 2500);
     }
   }
 </script>
@@ -42,7 +43,6 @@
   figure {
     max-width: 350px;
     width: min(100%, 400px);
-    margin-left: 16px;
     border: 3px solid black;
   }
   $success-colors: (
@@ -60,7 +60,9 @@
   .alert {
     @include border-radius(0.375rem);
     padding: 1rem 1rem;
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     animation-duration: 0.3s;
     animation-delay: 0.25s;
 

@@ -1,5 +1,7 @@
 <script lang="ts">
   import type { Venue } from "../../types/types";
+  import { ellipsizeString } from "../../utils/helpers";
+
   import Cta from "./CTA.svelte";
   export let data: Venue;
 
@@ -14,17 +16,23 @@
 
 <figure class="venue-card">
   <div class="venue-card__img-container">
-    {#if data?.media[0]?.url}
-      <img alt="" src={data?.media[0]?.url} />
-    {/if}
+    <img
+      alt=""
+      src={data?.media[0]?.url ?? "https://i.stack.imgur.com/EzZiD.png"}
+    />
   </div>
   <div class="venue-card__body">
-    <h3 class="venue-card__title">{data?.name}</h3>
+    <h3 class="venue-card__title">{ellipsizeString(data?.name, 10, 10, 30)}</h3>
     <p class="venue-card__location">
-      {data?.location?.city ??
-        data?.location?.country ??
-        data?.location?.continent ??
-        "Mystery"}
+      {ellipsizeString(
+        data?.location?.city ??
+          data?.location?.country ??
+          data?.location?.continent ??
+          "Mystery",
+        10,
+        10,
+        50
+      )}
     </p>
     <h4 class="venue-card__price">${cleanAndConvertPrice(data?.price)}</h4>
     <Cta action={`/venues/${data?.id}`} text="Details" />
@@ -73,6 +81,7 @@
       border-radius: 50%;
       border: 2px solid black;
       overflow: hidden;
+      background-color: #f2d027;
 
       img {
         width: 100%;

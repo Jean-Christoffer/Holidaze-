@@ -8,16 +8,22 @@
     isBefore,
     isAfter,
     isToday,
+    differenceInCalendarDays,
+    startOfWeek,
+    endOfWeek,
+    addDays,
+    subDays,
   } from "date-fns";
 
-  import type { Booking } from "../../types/types.ts";
+  import type { Booking, DayInfo } from "../../types/types.ts";
 
   export let bookings: Booking[];
   export let max: number = 0;
   export let id: string = "";
+  export let price: number = 0;
 
   $: bookingData = bookings;
-
+  $: numDays = 0;
   let bookedDates: string | string[];
   let currentDate = new Date();
 
@@ -26,11 +32,14 @@
   let guestAmount: number = 1;
   let startDateFormatted: string | undefined;
   let endDateFormatted: string | undefined;
+  let days: DayInfo[] = [];
+  let success: boolean;
+  let isDisabled: boolean = true;
 
-  $: if (guestAmount > max) {
-    guestAmount = max;
+  $: {
+    if (guestAmount >= max) guestAmount = max;
+    if (guestAmount < 1) guestAmount = 1;
   }
-
   $: startDateFormatted = startDate
     ? format(startDate, "yyyy-MM-dd")
     : undefined;
@@ -48,29 +57,36 @@
     return days;
   });
 
-  $: days = eachDayOfInterval({
-    start: startOfMonth(currentDate),
-    end: endOfMonth(currentDate),
-  }).map((day) => {
-    const formattedDate = format(day, "yyyy-MM-dd");
-    return {
-      date: day,
-      formatted: formattedDate,
-      isSelected:
-        (startDate && format(startDate, "yyyy-MM-dd") === formattedDate) ||
-        (endDate && format(endDate, "yyyy-MM-dd") === formattedDate),
-      isInRange:
-        startDate &&
-        endDate &&
-        isAfter(day, startDate) &&
-        isBefore(day, endDate),
-      isDisabled:
-        isBefore(day, new Date()) ||
-        (isToday(day) && format(new Date(), "yyyy-MM-dd") !== formattedDate) ||
-        bookedDates.includes(formattedDate),
-    };
-  });
+  $: {
+    const monthStart = startOfMonth(currentDate);
+    const monthEnd = endOfMonth(currentDate);
+    const calendarStart = startOfWeek(monthStart, { weekStartsOn: 1 });
+    const calendarEnd = endOfWeek(monthEnd, { weekStartsOn: 1 });
 
+    days = eachDayOfInterval({
+      start: calendarStart,
+      end: calendarEnd,
+    }).map((day) => {
+      const formattedDate = format(day, "yyyy-MM-dd");
+      return {
+        date: day,
+        formatted: formattedDate,
+        isSelected:
+          (startDate && format(startDate, "yyyy-MM-dd") === formattedDate) ||
+          (endDate && format(endDate, "yyyy-MM-dd") === formattedDate),
+        isInRange:
+          startDate &&
+          endDate &&
+          isAfter(day, startDate) &&
+          isBefore(day, endDate),
+        isDisabled:
+          isBefore(day, new Date()) ||
+          (isToday(day) &&
+            format(new Date(), "yyyy-MM-dd") !== formattedDate) ||
+          bookedDates.includes(formattedDate),
+      };
+    });
+  }
   function selectDate(date: Date) {
     const formattedDate = format(date, "yyyy-MM-dd");
     if (!bookedDates.includes(formattedDate)) {
@@ -84,12 +100,19 @@
         startDate = date;
       }
     }
+    if (startDate && endDate) {
+      const daysBetween = differenceInCalendarDays(endDate, startDate);
+      isDisabled = false;
+
+      numDays = daysBetween;
+    } else {
+      isDisabled = true;
+    }
   }
 
   function changeMonth(offset: number) {
     currentDate = addMonths(currentDate, offset);
   }
-  let success: boolean;
 
   async function handleSubmit(e: SubmitEvent) {
     e.preventDefault();
@@ -107,7 +130,7 @@
         bookingData = data.data;
         setTimeout(() => {
           success = false;
-        }, 1000);
+        }, 2500);
       }
     } catch (err) {
       console.log(err);
@@ -161,15 +184,23 @@
         {/each}
       </div>
       <div class="book-container">
-        <input
-          type="number"
-          name="guests"
-          bind:value={guestAmount}
-          {max}
-          min="1"
-          class="guests"
-        />
-        <button type="submit" class="book-btn">Book now</button>
+        <label for="guests" class="label"
+          ><p>Guests</p>
+          <input
+            type="number"
+            name="guests"
+            bind:value={guestAmount}
+            {max}
+            min="1"
+            class="guests"
+          />
+        </label>
+        <p class="total-price">Total price: {price * numDays}</p>
+        <div class="btn-container">
+          <button type="submit" class="book-btn btn" disabled={isDisabled}
+            >Book now</button
+          >
+        </div>
       </div>
     </div>
     <input type="hidden" name="dateFrom" value={startDateFormatted || ""} />
@@ -177,7 +208,7 @@
     <input type="hidden" name="venueId" value={id} />
   {:else}
     <div class="success-message">
-      <p>BOOKED!!</p>
+      <p>BOOKED!! Payment at arrival</p>
     </div>
   {/if}
 </form>
@@ -185,6 +216,19 @@
 <style lang="scss">
   svg {
     display: block;
+  }
+  .label {
+    display: flex;
+    align-items: center;
+    align-self: flex-start;
+    margin-left: 16px;
+    gap: 16px;
+    p {
+      color: black;
+      font-weight: bold;
+      font-size: 16px;
+      text-align: left;
+    }
   }
   .calendar {
     margin: 0 20px;
@@ -280,30 +324,49 @@
   .book-container {
     display: flex;
     align-items: center;
+    flex-direction: column;
     gap: 0;
-    border: 3px solid black;
-    background-color: #f2d027;
+  }
+  .total-price {
+    align-self: flex-start;
+    margin-left: 16px;
+    font-weight: bold;
+    color: black;
+    font-size: 20px;
   }
   .guests {
-    padding: 15px;
-    outline: none;
-    border: none;
-    border-right: 3px solid black;
-    height: 100%;
-    display: block;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
     font-size: 16px;
-    font-weight: 800;
-    width: 100px;
+    height: 30px;
+    width: 60px;
+    border: 2px solid black;
+    outline: none;
   }
-  .book-btn {
-    width: 150px;
-    border: none;
-    padding: 15px;
-    display: block;
-    font-size: 15px;
-    background-color: #f2d027;
-    font-weight: 800;
-    text-transform: uppercase;
+  .btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    .btn {
+      padding: 15px;
+      margin: 16px auto;
+      width: 100%;
+      font-size: 15px;
+      background: var(--btn-backround);
+      border-radius: 30px;
+      border-color: black;
+      font-weight: 800;
+      box-shadow: 5px 5px 0px 0px var(--form-border-color);
+    }
+    .btn:disabled {
+      cursor: not-allowed !important;
+    }
+
+    p {
+      margin: 20px 0px;
+    }
   }
 
   .calendar__day-names {
