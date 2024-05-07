@@ -1,17 +1,16 @@
 
 import type { APIRoute } from "astro";
-import { HolidazeGateWay } from "../../../gateway/HolidazeGateway";
+import { HolidazeGateWay } from "../../gateway/HolidazeGateway";
 
 const holidazeGateWay = new HolidazeGateWay();
 
 export const POST: APIRoute = async ({ locals, request }): Promise<Response> => {
 
-  const { token } = locals
+  const { token } = locals;
 
   try {
     const data = await request.json();
-
-    const response = await holidazeGateWay.updateVenue(
+    const response = await holidazeGateWay.createVenue(
       data,
       token,
       import.meta.env.API_KEY

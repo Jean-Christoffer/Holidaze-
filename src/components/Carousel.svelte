@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
-  import type { Venue } from "../../types/types";
+  import type { Venue } from "../types/types";
   import { gsap } from "gsap";
   import _ from "lodash";
 

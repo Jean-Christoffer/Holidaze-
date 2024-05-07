@@ -6,6 +6,8 @@
   </script>
   
   <div class:visible>
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div class="modal-overlay" on:click={onClick}></div>
     <div class="modal">
       <button class="close-button" on:click={onClick}>&times;</button>
@@ -52,7 +54,7 @@
       overflow: auto;
     }
   
-    /* Hide modal when not visible */
+ 
     .visible {
       display: block;
     }
@@ -64,8 +66,6 @@
     .visible .modal-overlay {
       display: block;
     }
-  
-    /* Hide modal when not visible */
     .hidden {
       display: none;
     }

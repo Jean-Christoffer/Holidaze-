@@ -1,11 +1,11 @@
 <script lang="ts">
   import SearchResults from "./SearchResults.svelte";
-  import { HolidazeGateWay } from "../../../gateway/HolidazeGateway";
+  import { HolidazeGateWay } from "../../gateway/HolidazeGateway";
   import _ from "lodash";
   import { fade } from "svelte/transition";
   import { slide } from "svelte/transition";
 
-  import type { Venue } from "../../../types/types";
+  import type { Venue } from "../../types/types";
 
   let searchTerm: string = "";
   let data: Array<Venue>;
@@ -199,7 +199,6 @@
           display: flex;
           flex-direction: column;
           gap: 16px;
-  
 
           .results-button {
             text-align: left;

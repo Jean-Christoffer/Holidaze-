@@ -2,10 +2,10 @@
 import Layout from "../layouts/Layout.astro";
 
 import { HolidazeGateWay } from "../gateway/HolidazeGateway";
-import Carousel from "../components/uiComponents/Carousel.svelte";
+import Carousel from "../components/Carousel.svelte";
 
 import type { Venue } from "../types/types";
-import Button from "../components/uiComponents/CTA.svelte";
+import Button from "../components/helpers/CTA.svelte";
 import { Image } from "astro:assets";
 const holidazeGateWay = new HolidazeGateWay();
 let data: Array<Venue>;

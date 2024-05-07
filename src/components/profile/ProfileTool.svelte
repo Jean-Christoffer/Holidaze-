@@ -1,6 +1,6 @@
 <script lang="ts">
   import Dropdown from "./Dropdown.svelte";
-  import type { User } from "../../../types/types";
+  import type { User } from "../../types/types";
 
   export let data: User | null;
   export let onClick:() => void;

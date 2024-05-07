@@ -5,7 +5,7 @@
     try {
       const formData = new FormData(e.currentTarget as HTMLFormElement);
 
-      const response = await fetch("/api/auth/deleteVenue", {
+      const response = await fetch("/api/deleteVenue", {
         method: "POST",
         body: formData,
       });

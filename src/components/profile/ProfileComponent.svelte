@@ -1,8 +1,8 @@
 <script lang="ts">
-  import SnackBar from "../SnackBar.svelte";
+  import SnackBar from "../helpers/SnackBar.svelte";
   import ProfileTool from "./ProfileTool.svelte";
-  import Modal from "./ProfileModal.svelte";
-  import type { User } from "../../../types/types";
+  import Modal from "../modal/ProfileModal.svelte";
+  import type { User } from "../../types/types";
 
   export let data: User | null;
 

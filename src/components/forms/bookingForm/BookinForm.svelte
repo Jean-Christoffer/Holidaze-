@@ -68,7 +68,7 @@
 
     try {
       const formData = new FormData(e.currentTarget as HTMLFormElement);
-      const response = await fetch("/api/auth/book", {
+      const response = await fetch("/api/bookVenue", {
         method: "POST",
         body: formData,
       });

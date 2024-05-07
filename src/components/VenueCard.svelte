@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { Venue } from "../../types/types";
-  import { ellipsizeString } from "../../utils/helpers";
+  import type { Venue } from "../types/types";
+  import { ellipsizeString } from "../utils/helpers";
 
-  import Cta from "./CTA.svelte";
+  import Cta from "./helpers/CTA.svelte";
   export let data: Venue;
 
   function cleanAndConvertPrice(price: number) {

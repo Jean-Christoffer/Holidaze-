@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Booking } from "../../../types/types";
+  import type { Booking } from "../../types/types";
 
   export let data: Array<Booking> = [];
   import { format } from "date-fns";
@@ -26,7 +26,9 @@
       </figure>
     {/each}
   {:else}
-    <p>No bookings yet</p>
+    <div>
+      <p>No bookings yet</p>
+    </div>
   {/if}
 </div>
 

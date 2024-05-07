@@ -2,12 +2,12 @@
 import Layout from "../../layouts/Layout.astro";
 import { HolidazeGateWay } from "../../gateway/HolidazeGateway";
 import { countryToAlpha2 } from "country-to-iso";
-import Ratings from "../../components/uiComponents/Ratings.svelte";
-import ModalForm from "../../components/uiComponents/modal/ModalForm.astro";
+import Ratings from "../../components/helpers/Ratings.svelte";
+import ModalForm from "../../components/modal/ModalForm.astro";
 import type { Venue } from "../../types/types";
 import DeleteVenue from "../../components/forms/DeleteVenue.svelte";
-import ModalBookings from "../../components/uiComponents/modal/ModalBookings.astro";
-import ModalUpdateVenue from "../../components/uiComponents/modal/ModalUpdateVenue.astro";
+import ModalBookings from "../../components/modal/ModalBookings.astro";
+import ModalUpdateVenue from "../../components/modal/ModalUpdateVenue.astro";
 import { Image } from "astro:assets";
 import { ellipsizeString, checkCountry } from "../../utils/helpers";
 

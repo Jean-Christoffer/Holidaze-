@@ -1,5 +1,5 @@
 <script lang="ts">
-  import SnackBar from "../SnackBar.svelte";
+  import SnackBar from "../helpers/SnackBar.svelte";
 
   let bio = "";
   let avatar = "";
@@ -28,7 +28,7 @@
 
     try {
       const formData = new FormData(e.currentTarget as HTMLFormElement);
-      const response = await fetch("/api/auth/updateProfile", {
+      const response = await fetch("/api/updateProfile", {
         method: "PUT",
         body: formData,
       });

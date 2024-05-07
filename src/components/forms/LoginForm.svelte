@@ -1,5 +1,5 @@
 <script lang="ts">
-  import SnackBar from "../uiComponents/SnackBar.svelte";
+  import SnackBar from "../helpers/SnackBar.svelte";
 
   let password = "";
   let email = "";

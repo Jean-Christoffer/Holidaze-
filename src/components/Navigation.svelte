@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Search from "../Search/Search.svelte";
+  import Search from "./Search/Search.svelte";
 
   export let user: string = "";
 
@@ -129,9 +129,8 @@
     position: relative;
     margin-right: 20px;
     @media (max-width: 1100px) {
-    
       margin-right: 0;
-  }
+    }
 
     &__ul {
       display: flex;
@@ -160,7 +159,6 @@
         fill: var(--text-color);
       }
       @media (max-width: 1100px) {
-    
         &.search-desktop {
           display: none;
         }
