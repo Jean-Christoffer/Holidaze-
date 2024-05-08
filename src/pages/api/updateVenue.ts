@@ -1,37 +1,28 @@
 
 import type { APIRoute } from "astro";
-import { HolidazeGateWay } from "../../../gateway/HolidazeGateway";
+import { HolidazeGateWay } from "../../gateway/HolidazeGateway";
 
 const holidazeGateWay = new HolidazeGateWay();
 
 export const POST: APIRoute = async ({ locals, request }): Promise<Response> => {
 
-  const { token } = locals;
+  const { token } = locals
 
   try {
-    const data = await request.formData();
+    const data = await request.json();
 
-    const response = await holidazeGateWay.book(
+    const response = await holidazeGateWay.updateVenue(
       data,
       token,
       import.meta.env.API_KEY
     );
 
     if (response.success) {
-      const venueId = data.get("venueId");
-      const fetchedData = await holidazeGateWay.getVenues(
-        { id: venueId, query: "" }
-      );
-      const updatedData = fetchedData?.data?.bookings;
-
-
       return Response.json({
         success: true,
         message: response.message,
-        result: 'Booking successfull',
-        data: updatedData
-      });
-
+        result: response.data
+      })
     }
     return new Response(
       JSON.stringify({

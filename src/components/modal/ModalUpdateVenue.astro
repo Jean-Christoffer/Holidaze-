@@ -1,9 +1,10 @@
 ---
 import { Modal } from "accessible-astro-components";
-import VenueForm from "../../forms/VenueForm/VenueForm.svelte";
+import VenueForm from "../forms/VenueForm/VenueForm.svelte";
 const { existingVenueData } = Astro.props;
 ---
 
 <Modal triggerId="modal7-trigger" title="">
+  <h3 style="color: transparent;">Venue</h3>
   <VenueForm client:load initialVenue={existingVenueData} />
 </Modal>

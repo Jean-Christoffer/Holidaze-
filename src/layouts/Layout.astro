@@ -1,10 +1,11 @@
 ---
 import Footer from "../components/Footer.astro";
 import { ViewTransitions } from "astro:transitions";
-import Navigation from "../components/uiComponents/headerComponents/Navigation.svelte";
-import Profile from "../components/profile.astro";
+import Navigation from "../components/Navigation.svelte";
+import Profile from "../components/profile/profile.astro";
 import "../styles/global.scss";
 import "../styles/forms.scss";
+import "../styles/modal.scss";
 
 interface Props {
   title: string;

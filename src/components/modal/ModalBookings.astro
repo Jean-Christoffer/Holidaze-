@@ -1,10 +1,9 @@
 ---
 import { Modal } from "accessible-astro-components";
-import BookingCardVenue from "../bookings/BookingCardVenue.svelte";
+import BookingCardVenue from "../bookings/VenueBookings.svelte";
 const { bookings } = Astro.props;
 ---
 
-<Modal triggerId="modal4-trigger" title="">
-    <h3>Bookings</h3>
+<Modal triggerId="modal4-trigger" title="Bookings">
     <BookingCardVenue data={bookings} client:load />
 </Modal>

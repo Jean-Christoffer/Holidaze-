@@ -109,7 +109,7 @@
 
     try {
       const response = await fetch(
-        initialVenue ? `/api/auth/updateVenue` : "/api/auth/createVenue",
+        initialVenue ? `/api/updateVenue` : "/api/createVenue",
         {
           method: "POST",
           body: JSON.stringify(venue),

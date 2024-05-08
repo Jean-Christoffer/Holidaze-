@@ -1,15 +1,9 @@
 <script lang="ts">
+
   export let message = "";
   export let show: boolean = false;
   export let isSuccess: boolean = true;
-
-  $: {
-    if (show) {
-      setTimeout(() => {
-        return (show = !show);
-      }, 2500);
-    }
-  }
+  export let closeSnackBar: () => void;
 </script>
 
 {#if show}
@@ -21,7 +15,7 @@
     <span class="block sm:inline">{message}.</span>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <span class="close-button" on:click={() => (show = !show)}>
+    <span class="close-button" on:click={closeSnackBar}>
       <svg
         class="fill-current h-6 w-6"
         xmlns="http://www.w3.org/2000/svg"

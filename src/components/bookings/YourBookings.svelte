@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Booking } from "../../../types/types";
+  import type { Booking } from "../../types/types";
 
   export let data: Array<Booking> = [];
   $: bookingData = data;

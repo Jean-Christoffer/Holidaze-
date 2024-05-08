@@ -1,7 +1,7 @@
 
 import type { APIRoute } from "astro";
 import type { APIContext } from 'astro';
-import { HolidazeGateWay } from "../../../gateway/HolidazeGateway";
+import { HolidazeGateWay } from "../../gateway/HolidazeGateway";
 
 
 const holidazeGateWay = new HolidazeGateWay();

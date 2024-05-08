@@ -1,5 +1,5 @@
 <script lang="ts">
-  import VenueCard from "./uiComponents/VenueCard.svelte";
+  import VenueCard from "./VenueCard.svelte";
   import type { Venue } from "../types/types";
   import { flip } from "svelte/animate";
   import { quintOut } from "svelte/easing";
@@ -135,6 +135,9 @@
       border-color: black;
       font-weight: 800;
       box-shadow: 5px 5px 0px 0px var(--form-border-color);
+      @media (max-width: 450px) {
+        font-size: 16px;
+      }
       img {
         transform: rotate(0deg);
         transition: 0.3s ease-in-out;
@@ -143,9 +146,9 @@
           transition: 0.3s ease-in-out;
         }
       }
-      @media(max-width:450px){
+      @media (max-width: 450px) {
         width: auto;
-    }
+      }
     }
   }
   section {

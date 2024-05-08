@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Venue } from "../../../types/types";
+  import type { Venue } from "../../types/types";
   export let data: Array<Venue>;
 </script>
 
