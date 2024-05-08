@@ -5,5 +5,6 @@ const { existingVenueData } = Astro.props;
 ---
 
 <Modal triggerId="modal7-trigger" title="">
+  <h3 style="color: transparent;">Venue</h3>
   <VenueForm client:load initialVenue={existingVenueData} />
 </Modal>

@@ -7,6 +7,9 @@
   let bio = "";
   let avatar = "";
   let venueManager = false;
+  let message = "";
+  let isSuccess: boolean;
+  let showSnackbar: boolean = false;
 
   const mailRegex = /^[a-zA-Z0-9._%+-]+@(stud\.)?noroff\.no$/;
   const urlPattern = /^(http|https):\/\/[^ "]+$/;
@@ -25,6 +28,14 @@
     passwordError = validatePassword(password);
     urlError = validateAvatar(avatar);
     isDisabled = Boolean(nameError || emailError || passwordError);
+  }
+
+  $: {
+    if (showSnackbar) {
+      setTimeout(() => {
+        return (showSnackbar = false);
+      }, 2500);
+    }
   }
 
   function validateName(name: string) {
@@ -58,14 +69,17 @@
     return "";
   }
 
-  let responseMessage = "";
-  let success: boolean;
-  let showSnackbar: boolean = false;
-
+  function closeSnackBar() {
+    showSnackbar = false;
+  }
+  function toggleSnackBar(snackBarMessage: string, success: boolean) {
+    message = snackBarMessage;
+    isSuccess = success;
+    return (showSnackbar = !showSnackbar);
+  }
   async function submit(e: SubmitEvent) {
     e.preventDefault();
-    success = false;
-    showSnackbar = false;
+
     try {
       const formData = new FormData(e.currentTarget as HTMLFormElement);
       const response = await fetch("/api/auth/register", {
@@ -74,10 +88,7 @@
       });
       const data = await response.json();
       if (!data.success) {
-        responseMessage = data.message;
-        success = false;
-        showSnackbar = true;
-
+        toggleSnackBar(data?.message, false);
         name = "";
         email = "";
         password = "";
@@ -86,9 +97,7 @@
         venueManager = false;
       }
       if (data.success) {
-        success = true;
-        showSnackbar = true;
-        responseMessage = "account created! logging you inn";
+        toggleSnackBar("account created! logging you inn", true);
         setTimeout(() => {
           window.location.href = "/";
         }, 2500);
@@ -172,7 +181,7 @@
       </p>
     </div>
   </form>
-  <SnackBar message={responseMessage} show={showSnackbar} isSuccess={success} />
+  <SnackBar {message} show={showSnackbar} {isSuccess} {closeSnackBar} />
 </div>
 
 <style lang="scss">

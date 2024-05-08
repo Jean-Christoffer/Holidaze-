@@ -27,15 +27,32 @@
     return "";
   }
   let errorMessage = "";
+  let message = "";
   let showSnackbar: boolean;
+  let showModal: boolean;
+  let isSuccess: boolean;
+
+  $: {
+    if (showSnackbar) {
+      setTimeout(() => {
+        return (showSnackbar = false);
+      }, 2500);
+    }
+  }
+  function closeSnackBar() {
+    showSnackbar = false;
+  }
+  function toggleSnackBar(snackBarMessage: string, success: boolean) {
+    message = snackBarMessage;
+    isSuccess = success;
+    return (showSnackbar = !showSnackbar);
+  }
 
   async function submit(e: SubmitEvent) {
     e.preventDefault();
-    showSnackbar = false;
-
     try {
       const formData = new FormData(e.currentTarget as HTMLFormElement);
-      const response = await fetch("/api/auth/updateProfile", {
+      const response = await fetch("/api/updateProfile", {
         method: "PUT",
         body: formData,
       });
@@ -43,17 +60,20 @@
 
       if (!data.success) {
         errorMessage = data.message;
-        showSnackbar = true;
+        toggleSnackBar(errorMessage, false);
         bio = "";
         avatar = "";
         venueManager = false;
       }
       userData = data.result;
+      toggleSnackBar("Profile updated!", true);
+      bio = "";
+      avatar = "";
+      venueManager = false;
     } catch (err) {
       console.log(err);
     }
   }
-  let showModal = false;
 
   function openModal() {
     showModal = true;
@@ -100,9 +120,8 @@
           <button class="btn">Update!</button>
         </div>
       </form>
-      {#if showSnackbar}
-        <SnackBar message={errorMessage} show={true} isSuccess={false} />
-      {/if}
+
+      <SnackBar {message} show={showSnackbar} {isSuccess} {closeSnackBar} />
     </div>
   </Modal>
 {/if}
@@ -110,6 +129,11 @@
 
 <style lang="scss">
   .form_area {
+    position: relative;
+    box-shadow: 20px 25px 2px var(--form-border-color);
+    @media (max-width: 400px) {
+      box-shadow: 8px 9px 2px var(--form-border-color);
+    }
     .form_group {
       margin: 5px 20px;
       &.venueManager {

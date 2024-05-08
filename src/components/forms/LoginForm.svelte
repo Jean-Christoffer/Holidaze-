@@ -10,11 +10,22 @@
   let passwordError = "";
 
   let isDisabled: boolean = true;
+  let message = "";
+  let isSuccess: boolean;
+  let showSnackbar: boolean = false;
 
   $: {
     emailError = validateEmail(email);
     passwordError = validatePassword(password);
     isDisabled = Boolean(emailError || passwordError);
+  }
+
+  $: {
+    if (showSnackbar) {
+      setTimeout(() => {
+        return (showSnackbar = false);
+      }, 2500);
+    }
   }
 
   function validateEmail(email: string) {
@@ -30,8 +41,15 @@
     }
     return "";
   }
-  let errorMessage = "";
-  let showSnackbar: boolean;
+
+  function closeSnackBar() {
+    showSnackbar = false;
+  }
+  function toggleSnackBar(snackBarMessage: string, success: boolean) {
+    message = snackBarMessage;
+    isSuccess = success;
+    return (showSnackbar = !showSnackbar);
+  }
 
   async function submit(e: SubmitEvent) {
     e.preventDefault();
@@ -44,8 +62,7 @@
       });
       const data = await response.json();
       if (!data.success) {
-        errorMessage = data.message;
-        showSnackbar = true;
+        toggleSnackBar(data?.message, false);
         email = "";
         password = "";
       }
@@ -96,7 +113,6 @@
       </p>
     </div>
   </form>
-  {#if showSnackbar}
-    <SnackBar message={errorMessage} show={true} isSuccess={false} />
-  {/if}
+
+  <SnackBar {message} show={showSnackbar} {isSuccess} {closeSnackBar} />
 </div>
