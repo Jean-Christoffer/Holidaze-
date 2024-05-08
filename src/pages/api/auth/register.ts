@@ -6,7 +6,7 @@ const holidazeGateWay = new HolidazeGateWay();
 export const POST: APIRoute = async ({ request, cookies }) => {
   try {
     const formData = await request.formData();
-    const registrationResponse = await holidazeGateWay.register(formData);
+    await holidazeGateWay.register(formData);
     const loginFormData = new FormData();
     const email = formData.get("email") as string | null; // Use correct field name
     const password = formData.get("password") as string | null;

@@ -18,9 +18,11 @@ export const POST: APIRoute = async ({ locals, request }): Promise<Response> => 
     );
 
     if (response.success) {
-      const venueId = data.get("venueId");
+      const venueId = data.get("venueId") || undefined;
+      const id = venueId?.toString()
+
       const fetchedData = await holidazeGateWay.getVenues(
-        { id: venueId, query: "" }
+        { id: id, query: "" }
       );
       const updatedData = fetchedData?.data?.bookings;
 
