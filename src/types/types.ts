@@ -25,6 +25,12 @@ export interface VenueForm {
     {
       url: string;
     },
+    {
+      url: string | "";
+    },
+    {
+      url: string | "";
+    },
   ],
   price: number;
   maxGuests: number;
@@ -64,7 +70,7 @@ export interface createBooking {
   guests: number;
 
 }
-type Media = {
+export type Media = {
   url: string;
   alt: string;
 };

@@ -13,6 +13,7 @@
   export let max: number = 0;
   export let id: string = "";
   export let price: number = 0;
+  export let isLoggedIn: boolean = false;
 
   $: bookingData = bookings;
 
@@ -54,7 +55,7 @@
     numDays = 0;
   }
 
-  $: isDisabled = numDays === 0 || !result.valid;
+  $: isDisabled = numDays === 0 || !result.valid || !isLoggedIn;
   function handleMonthChange(offset: number) {
     currentDate = changeMonth(currentDate, offset);
   }
@@ -145,8 +146,12 @@
         <p class="total-price">Total price: {price * numDays}</p>
         <div class="btn-container">
           <button type="submit" class="book-btn btn" disabled={isDisabled}
-            >Book now</button
-          >
+            >{#if !isLoggedIn}
+              Log in to book
+            {:else}
+              Book now
+            {/if}
+          </button>
         </div>
       </div>
     </div>

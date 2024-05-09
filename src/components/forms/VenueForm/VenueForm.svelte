@@ -16,6 +16,12 @@
       {
         url: "",
       },
+      {
+        url: "",
+      },
+      {
+        url: "",
+      },
     ],
     price: 0,
     maxGuests: 1,
@@ -48,6 +54,16 @@
   let isDisabled: boolean = true;
   let steps = ["Step 1", "Step 2", "Step 3", "Step 4"];
 
+  let mediaUrls = initialVenue ? initialVenue.media.map((u) => u.url) : [""];
+  let numberOfMediaUrls = mediaUrls.length;
+
+  function updateMediaUrls(index: number, event: Event): void {
+    const target = event.target;
+    if (target instanceof HTMLInputElement) {
+      mediaUrls[index] = target.value;
+      venue.media[index].url = mediaUrls[index];
+    }
+  }
   $: {
     nameError = validateName(venue.name);
     urlError = validateUrl(venue.media[0].url);
@@ -130,7 +146,6 @@
       console.log(err);
     }
   }
-
   function handleProgress(stepIncrement: number) {
     const newActive = currentActive + stepIncrement;
     currentActive = Math.max(1, Math.min(steps.length, newActive));
@@ -172,21 +187,40 @@
             <div class="error">{descriptionError}</div>
           {/if}
         </div>
-        <div class="form_group">
-          <label for="image" class="sub_title">Image</label>
 
-          <input
-            type="text"
-            bind:value={venue.media[0].url}
-            placeholder="Image"
-            required
-            class="form_style"
-            name="image"
-          />
-          {#if urlError}
-            <div class="error">{urlError}</div>
-          {/if}
+        <div class="form_group num-images">
+          <label for="media-count" class="sub_title"> Number of images </label>
+          <select
+            id="media-count"
+            bind:value={numberOfMediaUrls}
+            on:change={() =>
+              (mediaUrls = Array.from({ length: numberOfMediaUrls }, () => ""))}
+          >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
         </div>
+
+        {#each mediaUrls as mediaUrl, index}
+          <div class="form_group">
+            <label for={`media-url-${index}`} class="sub_title">
+              Image {index + 1}
+            </label>
+            <input
+              type="text"
+              id={`media-url-${index}`}
+              name={`media-url-${index}`}
+              bind:value={mediaUrl}
+              on:input={(event) => updateMediaUrls(index, event)}
+              class="form_style"
+            />
+            {#if urlError}
+              <div class="error">{urlError}</div>
+            {/if}
+          </div>
+        {/each}
+
         <div class="form_group">
           <label for="price" class="sub_title">Price</label>
 
@@ -215,15 +249,15 @@
 
     {#if currentStep > 3}
       {#if initialVenue}
-        <div><p>Success! Venue is changed</p></div>
+        <div class="success"><p>Success! Venue is changed</p></div>
       {:else}
-        <div><p>Success! Venue created!</p></div>
+        <div class="success"><p>Success! Venue created!</p></div>
       {/if}
     {/if}
 
     <div class="btn-container">
-      {#if currentStep > 1}
-        <button class="btn" type="button" on:click={prevStep}>Prev</button>
+      {#if currentStep > 1 && currentStep <= 3}
+        <button class="btn" type="button" on:click={prevStep}>Previous</button>
       {/if}
       {#if currentStep < 3}
         <button
@@ -241,6 +275,16 @@
 </div>
 
 <style lang="scss">
+  .num-images {
+    display: flex;
+    align-items: center !important;
+    flex-direction: row !important;
+    gap: 16px;
+    select {
+      width: 50px;
+      height: 30px;
+    }
+  }
   .tabs {
     display: flex;
     align-items: center;
@@ -267,5 +311,13 @@
   }
   .active {
     display: block;
+  }
+  .success {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
   }
 </style>

@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 
 import { HolidazeGateWay } from "../gateway/HolidazeGateway";
 import Carousel from "../components/Carousel.svelte";
-
+import ImageCarousel from "../components/helpers/ImageCarousel.svelte";
 import type { Venue } from "../types/types";
 import Button from "../components/helpers/CTA.svelte";
 import { Image } from "astro:assets";
@@ -42,7 +42,7 @@ try {
         </div>
       </article>
     </section>
-    <Carousel data={data} client:load/>
+    <Carousel data={data} client:load />
   </main>
 </Layout>
 

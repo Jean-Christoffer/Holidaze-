@@ -2,7 +2,6 @@
   import { onDestroy, onMount } from "svelte";
   import type { Venue } from "../types/types";
   import { gsap } from "gsap";
-  import _ from "lodash";
 
   export let data: Array<Venue>;
 
@@ -129,9 +128,11 @@
   </div>
   <div class="marquee" data-marquee="marquee3">
     <div class="marquee-content">
-      {#each data as images}
+      {#each data as venue}
         <figure>
-          <img alt="" src={images?.media[0]?.url} />
+          <a href={`venues/${venue?.id}`}>
+            <img alt="" src={venue?.media[0]?.url} />
+          </a>
         </figure>
       {/each}
     </div>

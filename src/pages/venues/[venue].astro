@@ -10,10 +10,11 @@ import ModalBookings from "../../components/modal/ModalBookings.astro";
 import ModalUpdateVenue from "../../components/modal/ModalUpdateVenue.astro";
 import { Image } from "astro:assets";
 import { ellipsizeString, checkCountry } from "../../utils/helpers";
+import ImageCarousel from "../../components/helpers/ImageCarousel.svelte";
 
 const { venue } = Astro.params;
 const { user } = Astro.locals;
-
+const disabled = user ? true : false;
 const holidazeGateWay = new HolidazeGateWay();
 
 let data: Venue | null;
@@ -43,18 +44,37 @@ const country = data
           max={data?.maxGuests}
           id={venue}
           price={data?.price}
+          disabled={disabled}
         />
       )
     }
 
     <figure class="venue__wrapper">
       <div class="venue__img-container">
-        <Image
-          alt=""
-          src={data?.media[0]?.url ?? "https://i.stack.imgur.com/EzZiD.png"}
-          width={500}
-          height={500}
-        />
+        {
+          data?.media ? (
+            data.media.length > 1 ? (
+              <ImageCarousel images={data.media} client:load />
+            ) : (
+              <Image
+                alt="Descriptive alt text"
+                src={
+                  data.media[0]?.url ?? "https://i.stack.imgur.com/EzZiD.png"
+                }
+                width={500}
+                height={500}
+              />
+            )
+          ) : (
+            <Image
+              alt="Descriptive alt text"
+              src={"https://i.stack.imgur.com/EzZiD.png"}
+              width={500}
+              height={500}
+            />
+          )
+        }
+
         <div class="venue__location">
           <p>{ellipsizeString(data?.location?.city, 10, 10, 30)}</p>
           {
@@ -172,6 +192,9 @@ const country = data
   </section>
 </Layout>
 <style lang="scss">
+  button:disabled {
+    cursor: not-allowed;
+  }
   .svg-container {
     display: flex;
     gap: 16px;
@@ -199,7 +222,7 @@ const country = data
       }
     }
     &__img-container {
-      width: 100%; // This ensures the container will take the full width of its parent
+      width: 100%;
       max-width: 700px;
       height: 390px;
 
@@ -314,6 +337,7 @@ const country = data
       }
     }
     .update {
+      z-index: 200;
       position: absolute;
       bottom: 0;
       right: 26px;

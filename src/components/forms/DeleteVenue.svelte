@@ -29,6 +29,7 @@
     position: absolute;
     bottom:50px;
     right: 16px;
+    z-index: 200;
     button {
       padding: 15px;
       margin: 30px auto;

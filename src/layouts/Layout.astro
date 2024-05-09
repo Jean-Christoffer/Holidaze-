@@ -33,7 +33,9 @@ const { title } = Astro.props;
           setTheme(nextTheme);
         });
       });
+      
     </script>
+
     <meta charset="UTF-8" />
     <meta name="description" content="Astro description" />
     <meta name="viewport" content="width=device-width" />
@@ -43,10 +45,6 @@ const { title } = Astro.props;
     <ViewTransitions />
   </head>
   <body>
-    <script is:inline>
-      const theme = localStorage.getItem("theme") || "light";
-      document.documentElement.dataset.theme = theme;
-    </script>
     <header>
       <button data-theme-toggle transition:persist class="darkmode-button"
       ></button>
