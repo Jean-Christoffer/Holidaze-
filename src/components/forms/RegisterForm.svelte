@@ -116,6 +116,8 @@
       <input
         type="text"
         name="name"
+        id="name"
+        autocomplete="additional-name"
         bind:value={name}
         required
         class="form_style"
@@ -129,6 +131,7 @@
       <input
         type="email"
         name="email"
+        id="email"
         bind:value={email}
         required
         class="form_style"
@@ -142,6 +145,7 @@
       <input
         type="password"
         name="password"
+        id="password"
         bind:value={password}
         required
         class="form_style"
@@ -156,6 +160,7 @@
       <input
         type="text"
         name="avatar"
+        id="avatar"
         bind:value={avatar}
         required
         class="form_style"
@@ -169,6 +174,7 @@
       <input
         type="checkbox"
         name="venueManager"
+        id="venueManager"
         bind:checked={venueManager}
         class="venuemanager"
       />

@@ -137,6 +137,7 @@
           <input
             type="number"
             name="guests"
+            id="guests"
             bind:value={guestAmount}
             {max}
             min="1"
@@ -165,3 +166,8 @@
     </div>
   {/if}
 </form>
+<style>
+  .book-btn{
+    background-color: #f2d027 !important;
+  }
+</style>

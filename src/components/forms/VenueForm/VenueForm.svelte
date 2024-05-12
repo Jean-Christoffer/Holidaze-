@@ -161,6 +161,8 @@
         <div class="form_group">
           <label for="name" class="sub_title">Name</label>
           <input
+            autocomplete="additional-name"
+            id="name"
             class="form_style"
             type="text"
             bind:value={venue.name}
@@ -175,6 +177,7 @@
         <div class="form_group">
           <label for="description" class="sub_title">Description</label>
           <textarea
+            id="description"
             rows="4"
             cols="50"
             class="form_style"
@@ -192,6 +195,7 @@
           <label for="media-count" class="sub_title"> Number of images </label>
           <select
             id="media-count"
+            name="media-count"
             bind:value={numberOfMediaUrls}
             on:change={() =>
               (mediaUrls = Array.from({ length: numberOfMediaUrls }, () => ""))}
@@ -226,6 +230,7 @@
 
           <input
             type="number"
+            id="price"
             bind:value={venue.price}
             placeholder="Price"
             min="1"

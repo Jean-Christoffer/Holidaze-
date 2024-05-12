@@ -83,6 +83,7 @@
       <input
         type="email"
         name="email"
+        id="email"
         bind:value={email}
         required
         class="form_style"
@@ -96,6 +97,7 @@
       <input
         type="password"
         name="password"
+        id="password"
         bind:value={password}
         required
         class="form_style"

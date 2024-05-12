@@ -13,6 +13,7 @@
     placeholder="Address"
     name="adress"
     class="form_style"
+    id="adress"
   />
 </div>
 
@@ -24,6 +25,7 @@
     bind:value={venue.location.city}
     placeholder="City"
     name="city"
+    id="city"
     class="form_style"
   />
 </div>
@@ -33,6 +35,8 @@
 
   <input
     type="text"
+    name="zip"
+    id="zip"
     bind:value={venue.location.zip}
     placeholder="Zip"
     class="form_style"
@@ -44,6 +48,7 @@
 
   <input
     type="text"
+    id="country"
     bind:value={venue.location.country}
     placeholder="Country"
     name="country"
@@ -59,6 +64,7 @@
     bind:value={venue.location.continent}
     placeholder="Continent"
     name="continent"
+    id="continent"
     class="form_style"
   />
 </div>
