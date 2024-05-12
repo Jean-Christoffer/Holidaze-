@@ -131,7 +131,7 @@
       {#each data as venue}
         <figure>
           <a href={`venues/${venue?.id}`}>
-            <img alt="" src={venue?.media[0]?.url} />
+            <img alt={venue?.name} src={venue?.media[0]?.url} />
           </a>
         </figure>
       {/each}
