@@ -10,7 +10,7 @@
     e.preventDefault();
     try {
       const formData = new FormData(e.currentTarget as HTMLFormElement);
-      const response = await fetch("/api/auth/cancelbooking", {
+      const response = await fetch("/api/cancelbooking", {
         method: "DELETE",
         body: formData,
       });

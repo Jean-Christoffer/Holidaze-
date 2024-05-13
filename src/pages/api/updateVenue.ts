@@ -4,7 +4,7 @@ import { HolidazeGateWay } from "../../gateway/HolidazeGateway";
 
 const holidazeGateWay = new HolidazeGateWay();
 
-export const POST: APIRoute = async ({ locals, request }): Promise<Response> => {
+export const PUT: APIRoute = async ({ locals, request }): Promise<Response> => {
 
   const { token } = locals
 

@@ -6,7 +6,7 @@
       const formData = new FormData(e.currentTarget as HTMLFormElement);
 
       const response = await fetch("/api/deleteVenue", {
-        method: "POST",
+        method: "DELETE",
         body: formData,
       });
       const data = await response.json();
@@ -20,14 +20,14 @@
 <form on:submit={submit}>
   <div class="btn-container delte-btn">
     <button class="btn">Delete booking</button>
-    <input value={venueId} type="hidden" name="venueid"/>
+    <input value={venueId} type="hidden" name="venueid" />
   </div>
 </form>
 
 <style lang="scss">
   .delte-btn {
     position: absolute;
-    bottom:50px;
+    bottom: 50px;
     right: 16px;
     z-index: 200;
     button {
