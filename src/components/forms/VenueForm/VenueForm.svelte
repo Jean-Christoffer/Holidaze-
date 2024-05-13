@@ -15,12 +15,7 @@
     media: [
       {
         url: "",
-      },
-      {
-        url: "",
-      },
-      {
-        url: "",
+        alt: "",
       },
     ],
     price: 0,
@@ -53,21 +48,50 @@
   let nameError = "";
   let isDisabled: boolean = true;
   let steps = ["Step 1", "Step 2", "Step 3", "Step 4"];
-
+  let maxIndex = 2;
   let mediaUrls = initialVenue ? initialVenue.media.map((u) => u.url) : [""];
-  let numberOfMediaUrls = mediaUrls.length;
 
   function updateMediaUrls(index: number, event: Event): void {
     const target = event.target;
     if (target instanceof HTMLInputElement) {
-      mediaUrls[index] = target.value;
-      venue.media[index].url = mediaUrls[index];
+      const newValue = target.value;
+      mediaUrls[index] = newValue;
+
+      if (newValue === "") {
+        if (venue.media.length === 1) {
+          venue.media[0] = { url: "", alt: "" };
+        } else {
+          mediaUrls.splice(index, 1);
+          venue.media.splice(index, 1);
+        }
+      } else {
+        if (urlPattern.test(newValue)) {
+          if (venue.media.length > index) {
+            venue.media[index] = {
+              url: newValue,
+              alt: "Venue image",
+            };
+          } else {
+            venue.media.push({
+              url: newValue,
+              alt: "Venue image",
+            });
+          }
+
+          if (index === venue.media.length - 1 && index !== maxIndex) {
+            venue.media.push({ url: "", alt: "" });
+            mediaUrls.push("");
+          }
+        }
+      }
     }
+    console.log(venue.media);
   }
+
   $: {
     nameError = validateName(venue.name);
-    urlError = validateUrl(venue.media[0].url);
     descriptionError = validateDescription(venue.description);
+    urlError = validateUrl(venue?.media[0]?.url);
 
     if (venue.price < 0) {
       venue.price = 1;
@@ -123,12 +147,20 @@
   async function submit(e: SubmitEvent) {
     e.preventDefault();
 
+    function filterEmptyMedia(v: VenueForm) {
+      return {
+        ...v,
+        media: venue.media.filter((m) => m.url),
+      };
+    }
+    const filteredVenue = filterEmptyMedia(venue);
+
     try {
       const response = await fetch(
         initialVenue ? `/api/updateVenue` : "/api/createVenue",
         {
-          method: "POST",
-          body: JSON.stringify(venue),
+          method: initialVenue ? "PUT" : "POST",
+          body: JSON.stringify(filteredVenue),
         }
       );
       const data = await response.json();
@@ -190,26 +222,15 @@
             <div class="error">{descriptionError}</div>
           {/if}
         </div>
-
-        <div class="form_group num-images">
-          <label for="media-count" class="sub_title"> Number of images </label>
-          <select
-            id="media-count"
-            name="media-count"
-            bind:value={numberOfMediaUrls}
-            on:change={() =>
-              (mediaUrls = Array.from({ length: numberOfMediaUrls }, () => ""))}
-          >
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-          </select>
-        </div>
-
         {#each mediaUrls as mediaUrl, index}
           <div class="form_group">
             <label for={`media-url-${index}`} class="sub_title">
-              Image {index + 1}
+              {#if index === 0}
+                Image {index + 1}
+                <small class="info-label">* only one image is required</small>
+              {:else}
+                Image {index + 1}
+              {/if}
             </label>
             <input
               type="text"
@@ -280,15 +301,8 @@
 </div>
 
 <style lang="scss">
-  .num-images {
-    display: flex;
-    align-items: center !important;
-    flex-direction: row !important;
-    gap: 16px;
-    select {
-      width: 50px;
-      height: 30px;
-    }
+  .info-label {
+    font-size: 12px;
   }
   .tabs {
     display: flex;

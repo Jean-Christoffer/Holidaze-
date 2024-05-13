@@ -29,8 +29,8 @@
           data?.location?.country ??
           data?.location?.continent ??
           "Mystery",
-        10,
-        10,
+        8,
+        8,
         50
       )}
     </p>

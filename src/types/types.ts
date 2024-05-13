@@ -21,17 +21,7 @@ export interface Venue {
 export interface VenueForm {
   name: string;
   description: string;
-  media: [
-    {
-      url: string;
-    },
-    {
-      url: string | "";
-    },
-    {
-      url: string | "";
-    },
-  ],
+  media:Media[];
   price: number;
   maxGuests: number;
   rating: number;

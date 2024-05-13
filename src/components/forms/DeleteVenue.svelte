@@ -18,18 +18,18 @@
 </script>
 
 <form on:submit={submit}>
-  <div class="btn-container delte-btn">
+  <div class="btn-container delete-btn">
     <button class="btn">Delete booking</button>
     <input value={venueId} type="hidden" name="venueid" />
   </div>
 </form>
 
 <style lang="scss">
-  .delte-btn {
+  .delete-btn {
     position: absolute;
     bottom: 50px;
     right: 16px;
-    z-index: 200;
+    z-index: 99;
     button {
       padding: 15px;
       margin: 30px auto;

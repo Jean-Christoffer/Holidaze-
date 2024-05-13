@@ -99,7 +99,7 @@
   onMount(() => {
     initMarquee("1", 10, -1);
     initMarquee("2", 10, -1);
-    initMarquee("3", 100, -1);
+    initMarquee("3", 105, -1);
   });
 
   onDestroy(() => {

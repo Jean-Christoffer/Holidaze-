@@ -122,9 +122,11 @@ class HolidazeGateWay {
   }
 
   public async createVenue(formData: FormData, token: string, apiKey: string): Promise<any> {
+    console.log(formData)
     return await HolidazeGateWay.httpRequest('POST', `${HolidazeGateWay.baseUrl}/holidaze/venues`, formData, token, apiKey);
   }
   public async updateVenue(formData: Venue, token: string, apiKey: string): Promise<any> {
+    console.log(formData,"UPDATE")
     return await HolidazeGateWay.httpRequest('PUT', `${HolidazeGateWay.baseUrl}/holidaze/venues/${formData?.id}`, formData, token, apiKey);
   }
 
