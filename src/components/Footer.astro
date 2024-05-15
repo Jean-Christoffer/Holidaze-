@@ -1,5 +1,8 @@
 <footer class="footer">
-  
+  <article class="footer__content">
+    <h2 class="footer__title">HOLDIAZE</h2>
+    <p>Find us at awesome street 9000</p>
+  </article>
 </footer>
 
 <style lang="scss">
@@ -9,17 +12,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    &__logo {
-      width: 70px;
-      height: 70px;
-      margin-top: 2px;
-      img {
-        display: block;
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-        object-position: center;
+    background-color: var(--header-footer-bg);
+    &__content {
+      max-width: 983px;
+      width: 100%;
+      margin: 20px auto;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      align-items: center;
+      p {
+        margin-top: 16px;
       }
+    }
+    &__title {
+      opacity: 0.5;
     }
   }
 </style>
