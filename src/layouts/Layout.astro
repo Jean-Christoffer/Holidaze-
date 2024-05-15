@@ -33,9 +33,30 @@ const { title } = Astro.props;
           setTheme(nextTheme);
         });
       });
-      
-    </script>
 
+      const handleScroll = () => {
+        let lastScrollTop = 0;
+        const header = document.getElementById("header");
+
+        if (header) {
+          window.addEventListener("scroll", () => {
+            const scrollTop =
+              window.scrollY || document.documentElement.scrollTop;
+
+            if (scrollTop > lastScrollTop) {
+              header.style.top = "-80px";
+            } else {
+              header.style.top = "0";
+            }
+
+            lastScrollTop = scrollTop;
+          });
+        }
+      };
+
+      window.addEventListener("DOMContentLoaded", handleScroll);
+      document.addEventListener("astro:after-swap", handleScroll);
+    </script>
     <meta charset="UTF-8" />
     <meta name="description" content="Astro description" />
     <meta name="viewport" content="width=device-width" />
@@ -45,9 +66,10 @@ const { title } = Astro.props;
     <ViewTransitions />
   </head>
   <body>
-    <header>
+    <header id="header">
       <button data-theme-toggle transition:persist class="darkmode-button"
-      ><span class="visually-hidden">Toggle Dark Mode</span></button>
+        ><span class="visually-hidden">Toggle Dark Mode</span></button
+      >
 
       <a href="/" class="logo">Holidaze</a>
       <div class="nav-profile">
