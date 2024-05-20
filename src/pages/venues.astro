@@ -21,7 +21,11 @@ try {
 }
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout
+  title="List of Venues."
+  ,
+  description="Here is a list of available Venues"
+>
   <h1>VENUES</h1>
   <VenueSection data={data} client:load />
 </Layout>

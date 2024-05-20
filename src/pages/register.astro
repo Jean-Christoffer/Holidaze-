@@ -3,7 +3,11 @@ import RegisterForm from "../components/forms/RegisterForm.svelte";
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout
+  title="Welcome to Astro."
+  ,
+  description="Here you can register your account"
+>
   <section>
     <RegisterForm client:idle />
   </section>

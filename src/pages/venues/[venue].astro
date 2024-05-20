@@ -30,7 +30,7 @@ const country = data
   : "NO";
 ---
 
-<Layout title="Venue">
+<Layout title=`Venue ${data?.id}`, description=`information about Venue ${data?.id}`>
   <section class="venue">
     {
       user === data?.owner?.name ? (
