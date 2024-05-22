@@ -8,7 +8,6 @@
 
   $: userData = data;
 
-  let bio = "";
   let avatar = "";
   let venueManager = false;
 
@@ -61,13 +60,11 @@
       if (!data.success) {
         errorMessage = data.message;
         toggleSnackBar(errorMessage, false);
-        bio = "";
         avatar = "";
         venueManager = false;
       }
       userData = data.result;
       toggleSnackBar("Profile updated!", true);
-      bio = "";
       avatar = "";
       venueManager = false;
     } catch (err) {
@@ -91,10 +88,6 @@
     <div class="form_area">
       <h4 class="title">UPDATE PROFILE</h4>
       <form on:submit={submit}>
-        <div class="form_group">
-          <label for="bio" class="sub_title">Bio</label>
-          <input type="text" name="bio" bind:value={bio} class="form_style" />
-        </div>
         <div class="form_group">
           <label for="avatar" class="sub_title">Avatar</label>
           <input

@@ -30,7 +30,11 @@ const country = data
   : "NO";
 ---
 
-<Layout title=`Venue ${data?.id}`, description=`information about Venue ${data?.id}`>
+<Layout
+  title=`Venue ${data?.id}`
+  ,
+  description=`information about Venue ${data?.id}`
+>
   <section class="venue">
     {
       user === data?.owner?.name ? (
@@ -108,6 +112,26 @@ const country = data
 
       <article class="venue__body">
         <h2>{ellipsizeString(data?.name, 10, 10, 30)}</h2>
+        {
+          data?.location?.address ? (
+            <small>
+              <p>
+                {data?.location?.address} - {data?.location?.zip}
+              </p>
+            </small>
+          ) : (
+            ""
+          )
+        }
+        {
+          data?.location?.continent ? (
+            <strong>
+              <p>Visit {data?.location?.continent} !</p>
+            </strong>
+          ) : (
+            ""
+          )
+        }
         <p>{ellipsizeString(data?.description, 10, 10, 230)}</p>
         {
           data?.rating ? (

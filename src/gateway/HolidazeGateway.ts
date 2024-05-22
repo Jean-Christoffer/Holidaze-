@@ -65,11 +65,11 @@ class HolidazeGateWay {
       ...formJson,
       bio: formJson.bio || "Awesome customer",
       avatar: {
-        url: formJson.avatar || 'https://i.stack.imgur.com/EzZiD.png',
+        url: formJson.avatar || 'https://img.freepik.com/free-vector/flat-design-unicorn-silhouette-illustration_23-2149489355.jpg?t=st=1716400319~exp=1716403919~hmac=ea09d59e306616f2a2b7d7bfd8e9bacd17d2fecc173e8603c94200802d75e171&w=1380',
         alt: "profileImage"
       },
       banner: {
-        url: formJson.banner || 'https://i.stack.imgur.com/EzZiD.png',
+        url: formJson.banner || 'https://img.freepik.com/free-vector/flat-design-unicorn-silhouette-illustration_23-2149489355.jpg?t=st=1716400319~exp=1716403919~hmac=ea09d59e306616f2a2b7d7bfd8e9bacd17d2fecc173e8603c94200802d75e171&w=1380',
         alt: "bannerImage"
       },
       venueManager: formJson.venueManager === 'on',
@@ -91,13 +91,13 @@ class HolidazeGateWay {
 
 
     const formattedJson = {
-      bio: formJson.bio || "Awesome customer",
+      bio: "Awesome customer",
       avatar: {
-        url: formJson.avatar || 'https://i.stack.imgur.com/EzZiD.png',
+        url: formJson.avatar || 'https://img.freepik.com/free-vector/flat-design-unicorn-silhouette-illustration_23-2149489355.jpg?t=st=1716400319~exp=1716403919~hmac=ea09d59e306616f2a2b7d7bfd8e9bacd17d2fecc173e8603c94200802d75e171&w=1380',
         alt: "profileImage"
       },
       banner: {
-        url: formJson.banner || 'https://i.stack.imgur.com/EzZiD.png',
+        url: formJson.banner || 'https://img.freepik.com/free-vector/flat-design-unicorn-silhouette-illustration_23-2149489355.jpg?t=st=1716400319~exp=1716403919~hmac=ea09d59e306616f2a2b7d7bfd8e9bacd17d2fecc173e8603c94200802d75e171&w=1380',
         alt: "bannerImage"
       },
       venueManager: formJson.venueManager === 'on',
@@ -126,7 +126,7 @@ class HolidazeGateWay {
     return await HolidazeGateWay.httpRequest('POST', `${HolidazeGateWay.baseUrl}/holidaze/venues`, formData, token, apiKey);
   }
   public async updateVenue(formData: Venue, token: string, apiKey: string): Promise<any> {
-    console.log(formData,"UPDATE")
+    console.log(formData, "UPDATE")
     return await HolidazeGateWay.httpRequest('PUT', `${HolidazeGateWay.baseUrl}/holidaze/venues/${formData?.id}`, formData, token, apiKey);
   }
 
