@@ -76,14 +76,22 @@
               aria-label="price ascending"
               on:click={handleSortPrice}
             >
-              <span>Price ascending</span>
+              {#if isSortedDescending}
+                <span>Price decending</span>
+              {:else}
+                <span>Price ascending</span>
+              {/if}
             </button>
             <button
               class="sorting-button"
               aria-label="price descending"
               on:click={handleSortDate}
             >
-              <span>Date descending</span>
+              {#if isSortedByDateDescending}
+                <span>Date decending</span>
+              {:else}
+                <span>Date ascending</span>
+              {/if}
             </button>
           </div>
         </div>
