@@ -1,6 +1,6 @@
 #  Holidaze
 
-[Live site](https://holidaze-bay.vercel.app/).
+[Live site](https://holidaze-bay.vercel.app/)
 
 ```sh
 git clone https://github.com/Jean-Christoffer/Holidaze-.git
