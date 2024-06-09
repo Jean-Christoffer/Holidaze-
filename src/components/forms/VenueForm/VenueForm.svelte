@@ -85,7 +85,6 @@
         }
       }
     }
-    console.log(venue.media);
   }
 
   $: {
